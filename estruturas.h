@@ -3,7 +3,7 @@
 
 // Subestrutura para armazenar o endereço
 typedef struct {
-    char estado[30];
+    char estado[2];
     char cidade[30];
     char cep[12];
     char bairro[30];
@@ -19,7 +19,7 @@ typedef struct {
     char telefone[15];
     char email[50];
     float porcentagemLucro; // Usando float para representar a porcentagem
-} dados_Oficina;
+} Dados_Oficina;
 
 // Estrutura para armazenar os dados dos clientes
 typedef struct {
