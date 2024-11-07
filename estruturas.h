@@ -1,11 +1,16 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 // Subestrutura para armazenar o endereço
 typedef struct {
     char estado[2];
     char cidade[30];
-    char cep[12];
+    int cep;
     char bairro[30];
     char rua[50];
     int numero;
@@ -14,9 +19,9 @@ typedef struct {
 // Estrutura principal para armazenar os dados do cliente da oficina
 typedef struct {
     char nome[100];
-    char cpf_cnpj[20];
+    int cpf_cnpj;
     Endereco endereco; // Usando a subestrutura Endereco
-    char telefone[15];
+    int telefone;
     char email[50];
     float porcentagemLucro; // Usando float para representar a porcentagem
 } Dados_Oficina;
@@ -25,9 +30,9 @@ typedef struct {
 typedef struct {
     int codigo;               // Código do cliente
     char nome[100];           // Nome do cliente
-    char cpf_cnpj[20];        // CPF ou CNPJ
+    int cpf_cnpj;        // CPF ou CNPJ
     Endereco endereco;        // Endereço do cliente (usando a subestrutura)
-    char telefone[15];        // Telefone
+    int telefone;        // Telefone
     char email[50];           // E-mail
 } Cliente;
 
@@ -38,7 +43,7 @@ typedef struct {
     char marca[30];           // Marca do veículo
     int anoFabricacao;        // Ano de fabricação do veículo
     char chassi[20];          // Chassi do veículo
-    Cliente *proprietario;    // Ponteiro para o proprietário do veículo (tipo Cliente)
+    Cliente proprietario;    // Proprietário do veículo (tipo Cliente)
 } Veiculo;
 
 
@@ -60,9 +65,9 @@ typedef struct {
     char nomeFantasia[100];   // Nome fantasia
     char razaoSocial[100];    // Razão social
     char inscricaoEstadual[20]; // Inscrição estadual
-    char cnpj[20];            // CNPJ
+    int cnpj;            // CNPJ
     Endereco endereco;        // Endereço completo
-    char telefone[15];        // Telefone
+    int telefone;        // Telefone
     char email[50];           // E-mail
 } Fornecedor;
 
@@ -77,7 +82,7 @@ typedef struct {
 // Estrutura para armazenar os dados dos funcionários
 typedef struct {
     char nome[100];           // Nome do funcionário
-    char cpf[15];             // CPF
+    int cpf;             // CPF
     char cargo[50];           // Cargo
     float salario;            // Salário
 } Funcionario;
