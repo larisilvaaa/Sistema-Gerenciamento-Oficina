@@ -46,9 +46,9 @@ Dados_Oficina cadastrar_dados_oficina(){
 }
 
 int main() {
-    Dados_Oficina x;
+    Dados_Oficina oficina;
 
-    cadastrar_dados_oficina();
+    oficina = cadastrar_dados_oficina();
    
     return 0;
 }
