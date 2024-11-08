@@ -1,8 +1,11 @@
 #include <stdio.h>
-#include "cadastro.h"
+#include "estruturas.h" //estruturas definidas 
+#include "cadastro.h"   //função de cadastro 
+#include <locale.h>    //biblioteca que permite o reconhecimento de caracteres especias 
 
 //Sub-rotina que realiza o cadastro da oficina
 Dados_Oficina cadastrar_dados_oficina(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Dados_Oficina cliente;
    
     printf("Digite o nome do cliente: ");
@@ -11,7 +14,7 @@ Dados_Oficina cadastrar_dados_oficina(){
 
     printf("Digite o CPF ou CNPJ (apenas números): ");
     setbuf(stdin,NULL);
-    scanf("%d", &cliente.cpf_cnpj);
+    scanf("%ld", &cliente.cpf_cnpj);
     getchar();
 
     printf("Digite o endereço:\n");
@@ -42,9 +45,9 @@ Dados_Oficina cadastrar_dados_oficina(){
     scanf("%d", &cliente.endereco.cep);
     getchar(); 
 
-    printf("Digite o telefone (apenas números): ");
+    printf("Digite o telefone +DDD (apenas números): ");
     setbuf(stdin, NULL);
-    scanf("%d", &cliente.telefone);
+    scanf("%ld", &cliente.telefone);
     getchar(); 
 
     printf("Digite o email: ");
@@ -62,6 +65,7 @@ Dados_Oficina cadastrar_dados_oficina(){
 
 //Sub-rotina que realiza o cadastro dos clientes
 Cliente cadastrar_dados_cliente(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Cliente cliente;
    
     printf("Digite o código do cliente: ");
@@ -75,7 +79,7 @@ Cliente cadastrar_dados_cliente(){
 
     printf("Digite o CPF ou CNPJ (apenas números): ");
     setbuf(stdin,NULL);
-    scanf("%d", &cliente.cpf_cnpj);
+    scanf("%ld", &cliente.cpf_cnpj);
     getchar();
 
     printf("Digite o endereço:\n");
@@ -106,9 +110,9 @@ Cliente cadastrar_dados_cliente(){
     scanf("%d", &cliente.endereco.cep);
     getchar(); 
 
-    printf("Digite o telefone (apenas números): ");
+    printf("Digite o telefone +DDD (apenas números): ");
     setbuf(stdin, NULL);
-    scanf("%d", &cliente.telefone);
+    scanf("%ld", &cliente.telefone);
     getchar(); 
 
     printf("Digite o email: ");
@@ -121,6 +125,7 @@ Cliente cadastrar_dados_cliente(){
 
 //Sub-rotina que realiza o cadastro dos veículos
 Veiculo cadastrar_dados_veiculo(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Veiculo veiculo;
    
     printf("Digite a placa do veículo: ");
@@ -154,6 +159,7 @@ Veiculo cadastrar_dados_veiculo(){
 
 //Sub-rotina que realiza o cadastro das peças
 Peca cadastrar_dados_peca(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Peca peca;
 
     printf("Digite o código da peça: ");
@@ -198,6 +204,7 @@ Peca cadastrar_dados_peca(){
 
 //Sub-rotina que realiza o cadastro dos fornecedores
 Fornecedor cadastrar_dados_fornecedor(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Fornecedor fornecedor;
 
     printf("Digite o código do fornecedor: ");
@@ -219,7 +226,7 @@ Fornecedor cadastrar_dados_fornecedor(){
 
     printf("Digite o CNPJ (apenas números): ");
     setbuf(stdin,NULL);
-    scanf("%d", &fornecedor.cnpj);
+    scanf("%ld", &fornecedor.cnpj);
     getchar();
 
     printf("Digite o endereço:\n");
@@ -250,9 +257,9 @@ Fornecedor cadastrar_dados_fornecedor(){
     scanf("%d", &fornecedor.endereco.cep);
     getchar(); 
 
-    printf("Digite o telefone (apenas números): ");
+    printf("Digite o telefone +DDD (apenas números): ");
     setbuf(stdin, NULL);
-    scanf("%d", &fornecedor.telefone);
+    scanf("%ld", &fornecedor.telefone);
     getchar(); 
 
     printf("Digite o email: ");
@@ -265,6 +272,7 @@ Fornecedor cadastrar_dados_fornecedor(){
 
 //Sub-rotina que realiza o cadastro dos serviços
 Servico cadastrar_dados_servico(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Servico servico;
 
     printf("Digite o código do serviço: ");
@@ -291,6 +299,7 @@ Servico cadastrar_dados_servico(){
 
 //Sub-rotina que realiza o cadastro dos funcionários
 Funcionario cadastrar_dados_funcionario(){
+    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Funcionario funcionario;
 
     printf("Digite o nome do funcionário: ");
@@ -299,7 +308,7 @@ Funcionario cadastrar_dados_funcionario(){
 
     printf("Digite o CPF: ");
     setbuf(stdin,NULL);
-    scanf("%d", &funcionario.cpf);
+    scanf("%ld", &funcionario.cpf);
     getchar();
 
     printf("Digite o cargo: ");
@@ -312,15 +321,4 @@ Funcionario cadastrar_dados_funcionario(){
     getchar();
 
     return funcionario;
-}
-
-
-
-int main() {
-    Dados_Oficina oficina;//cria variavel do tipo oficina
-   
-    oficina = cadastrar_dados_oficina();//a função retorna a variavel os dados do cadastro 
-
-    
-    return 0;
 }

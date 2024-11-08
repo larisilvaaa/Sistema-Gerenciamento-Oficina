@@ -8,7 +8,7 @@
 
 // Subestrutura para armazenar o endereço
 typedef struct {
-    char estado[2];
+    char estado[3];
     char cidade[30];
     int cep;
     char bairro[30];
@@ -19,9 +19,9 @@ typedef struct {
 // Estrutura principal para armazenar os dados do cliente da oficina
 typedef struct {
     char nome[100];
-    int cpf_cnpj;
+    long int cpf_cnpj;
     Endereco endereco; // Usando a subestrutura Endereco
-    int telefone;
+    long int telefone;
     char email[50];
     float porcentagemLucro; // Usando float para representar a porcentagem
 } Dados_Oficina;
@@ -30,9 +30,9 @@ typedef struct {
 typedef struct {
     int codigo;               // Código do cliente
     char nome[100];           // Nome do cliente
-    int cpf_cnpj;            // CPF ou CNPJ
+    long int cpf_cnpj;            // CPF ou CNPJ
     Endereco endereco;       // Endereço do cliente (usando a subestrutura)
-    int telefone;            // Telefone
+    long int telefone;            // Telefone
     char email[50];           // E-mail
 } Cliente;
 
@@ -65,9 +65,9 @@ typedef struct {
     char nomeFantasia[100];      // Nome fantasia
     char razaoSocial[100];       // Razão social
     char inscricaoEstadual[20]; // Inscrição estadual
-    int cnpj;                   // CNPJ
+    long int cnpj;                   // CNPJ
     Endereco endereco;          // Endereço completo
-    int telefone;               // Telefone
+    long int telefone;               // Telefone
     char email[50];             // E-mail
 } Fornecedor;
 
@@ -82,7 +82,7 @@ typedef struct {
 // Estrutura para armazenar os dados dos funcionários
 typedef struct {
     char nome[100];           // Nome do funcionário
-    int cpf;                  // CPF
+    long int cpf;                  // CPF
     char cargo[50];           // Cargo
     float salario;            // Salário
 } Funcionario;
