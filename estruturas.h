@@ -30,9 +30,9 @@ typedef struct {
 typedef struct {
     int codigo;               // Código do cliente
     char nome[100];           // Nome do cliente
-    int cpf_cnpj;        // CPF ou CNPJ
-    Endereco endereco;        // Endereço do cliente (usando a subestrutura)
-    int telefone;        // Telefone
+    int cpf_cnpj;            // CPF ou CNPJ
+    Endereco endereco;       // Endereço do cliente (usando a subestrutura)
+    int telefone;            // Telefone
     char email[50];           // E-mail
 } Cliente;
 
@@ -61,14 +61,14 @@ typedef struct {
 
 // Estrutura para armazenar os dados dos fornecedores
 typedef struct {
-    int codigo;               // Código do fornecedor (único)
-    char nomeFantasia[100];   // Nome fantasia
-    char razaoSocial[100];    // Razão social
+    int codigo;                  // Código do fornecedor (único)
+    char nomeFantasia[100];      // Nome fantasia
+    char razaoSocial[100];       // Razão social
     char inscricaoEstadual[20]; // Inscrição estadual
-    int cnpj;            // CNPJ
-    Endereco endereco;        // Endereço completo
-    int telefone;        // Telefone
-    char email[50];           // E-mail
+    int cnpj;                   // CNPJ
+    Endereco endereco;          // Endereço completo
+    int telefone;               // Telefone
+    char email[50];             // E-mail
 } Fornecedor;
 
 // Estrutura para armazenar os dados dos serviços oferecidos
@@ -82,7 +82,7 @@ typedef struct {
 // Estrutura para armazenar os dados dos funcionários
 typedef struct {
     char nome[100];           // Nome do funcionário
-    int cpf;             // CPF
+    int cpf;                  // CPF
     char cargo[50];           // Cargo
     float salario;            // Salário
 } Funcionario;
