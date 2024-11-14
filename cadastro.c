@@ -243,7 +243,7 @@ Veiculo cadastrar_dados_veiculo(char op){
 }
 
 //Sub-rotina que realiza o cadastro das peças
-Peca cadastrar_dados_peca(){
+Peca cadastrar_dados_peca(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Peca peca;
 
@@ -328,7 +328,7 @@ Peca cadastrar_dados_peca(){
 }
 
 //Sub-rotina que realiza o cadastro dos fornecedores
-Fornecedor cadastrar_dados_fornecedor(){
+Fornecedor cadastrar_dados_fornecedor(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Fornecedor fornecedor;
 
@@ -458,7 +458,7 @@ Fornecedor cadastrar_dados_fornecedor(){
 }
 
 //Sub-rotina que realiza o cadastro dos serviços
-Servico cadastrar_dados_servico(){
+Servico cadastrar_dados_servico(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Servico servico;
 
@@ -507,7 +507,7 @@ Servico cadastrar_dados_servico(){
 }
 
 //Sub-rotina que realiza o cadastro dos funcionários
-Funcionario cadastrar_dados_funcionario(){
+Funcionario cadastrar_dados_funcionario(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
     Funcionario funcionario;
 
