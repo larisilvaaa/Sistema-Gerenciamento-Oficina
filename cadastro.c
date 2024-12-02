@@ -1,24 +1,25 @@
 #include <stdio.h>
-#include "estruturas.h" //estruturas definidas 
-#include "cadastro.h"   //função de cadastro 
-#include <locale.h>    //biblioteca que permite o reconhecimento de caracteres especias 
+#include "estruturas.h" // Importa o cabeçalho com as definições das estruturas
+#include "cadastro.h"   // Importa o cabeçalho com as funções de cadastro
+#include <locale.h>    // Biblioteca para configurar a exibição de caracteres especiais no console
 
-
-
-//Sub-rotina que realiza o cadastro da oficina
+// Sub-rotina que realiza o cadastro das informações da oficina
 Dados_Oficina cadastrar_dados_oficina(){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
-    Dados_Oficina cliente;
-   
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
+    Dados_Oficina cliente; // Variável para armazenar os dados do cliente
+    
+    // Coleta o nome do cliente
     printf("Digite o nome do cliente: ");
-    setbuf(stdin, NULL);//limpa buffer de teclado
+    setbuf(stdin, NULL); // Limpa o buffer para evitar problemas de entrada
     fgets(cliente.nome, 100, stdin);
 
+    // Coleta o CPF ou CNPJ do cliente
     printf("Digite o CPF ou CNPJ (apenas números): ");
-    setbuf(stdin,NULL);
+    setbuf(stdin, NULL);
     scanf("%ld", &cliente.cpf_cnpj);
-    getchar();
+    getchar(); // Limpa o buffer após a entrada de números
 
+    // Coleta o endereço do cliente
     printf("Digite o endereço:\n");
     printf(" Rua: ");
     setbuf(stdin, NULL);
@@ -40,37 +41,42 @@ Dados_Oficina cadastrar_dados_oficina(){
     printf(" Estado (2 letras): ");
     setbuf(stdin, NULL);
     fgets(cliente.endereco.estado, 3, stdin);
-    getchar(); // Limpar o buffer após a entrada de estado
+    getchar(); // Limpa o buffer para evitar problemas
 
+    // Coleta o CEP do cliente
     printf(" CEP (apenas números): ");
     setbuf(stdin, NULL);
     scanf("%d", &cliente.endereco.cep);
-    getchar(); 
+    getchar();
 
+    // Coleta o telefone do cliente
     printf("Digite o telefone +DDD (apenas números): ");
     setbuf(stdin, NULL);
     scanf("%ld", &cliente.telefone);
-    getchar(); 
+    getchar();
 
+    // Coleta o e-mail do cliente
     printf("Digite o email: ");
     setbuf(stdin, NULL);
     fgets(cliente.email, 50, stdin);
 
+    // Coleta a porcentagem de lucro
     printf("Digite a porcentagem de lucro: ");
     setbuf(stdin, NULL);
     scanf("%f", &cliente.porcentagemLucro);
-    getchar(); // Limpar o buffer após o scanf
+    getchar();
 
+    // Retorna os dados preenchidos
     return cliente;
-
 }
+
 
 //Sub-rotina que realiza o cadastro dos clientes
 Cliente cadastrar_dados_cliente(char op){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Cliente cliente;
 
-    if(op=='C'|| op=='c'){// opção para cadastrar
+    if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
         
     printf("Digite o código do cliente: ");
     setbuf(stdin, NULL);
@@ -123,7 +129,8 @@ Cliente cadastrar_dados_cliente(char op){
     setbuf(stdin, NULL);
     fgets(cliente.email, 50, stdin);
 
-    } else if(op=='E' || op=='e'){// opção para editar
+    } else if(op=='E' || op=='e'){// Verifica se o usuário quer editar
+        // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
     
     printf("Digite o nome do cliente: ");
     setbuf(stdin, NULL);
@@ -181,10 +188,10 @@ Cliente cadastrar_dados_cliente(char op){
 
 //Sub-rotina que realiza o cadastro dos veículos
 Veiculo cadastrar_dados_veiculo(char op){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Veiculo veiculo;
    
-    if(op=='C'|| op=='c'){// opção para cadastrar
+    if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
         printf("Digite a placa do veículo: ");
     setbuf(stdin, NULL);
     fgets(veiculo.placa, 10, stdin);
@@ -211,7 +218,8 @@ Veiculo cadastrar_dados_veiculo(char op){
     scanf("%d", &veiculo.proprietario.codigo);
     getchar();
 
-    } else if(op=='E' || op=='e'){ //opção para editar
+    } else if(op=='E' || op=='e'){ // Verifica se o usuário quer editar
+        // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
         
     printf("Digite o modelo do veículo: ");
     setbuf(stdin, NULL);
@@ -244,11 +252,10 @@ Veiculo cadastrar_dados_veiculo(char op){
 
 //Sub-rotina que realiza o cadastro das peças
 Peca cadastrar_dados_peca(char op){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Peca peca;
 
-    if(op=='C'|| op=='c'){// opção para cadastrar
-    
+    if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
     printf("Digite o código da peça: ");
     setbuf(stdin,NULL);
     scanf("%d", &peca.codigo);
@@ -286,7 +293,8 @@ Peca cadastrar_dados_peca(char op){
     scanf("%d", &peca.estoqueMinimo);
     getchar();
 
-    } else if(op=='E' || op=='e'){//opção para editar
+    } else if(op=='E' || op=='e'){// Verifica se o usuário quer editar
+        // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
         
     printf("Descrição da peça: ");
     setbuf(stdin, NULL);
@@ -329,10 +337,10 @@ Peca cadastrar_dados_peca(char op){
 
 //Sub-rotina que realiza o cadastro dos fornecedores
 Fornecedor cadastrar_dados_fornecedor(char op){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Fornecedor fornecedor;
 
-    if(op=='C'|| op=='c'){// opção para cadastrar
+    if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
 
     printf("Digite o código do fornecedor: ");
     setbuf(stdin, NULL);
@@ -393,7 +401,8 @@ Fornecedor cadastrar_dados_fornecedor(char op){
     setbuf(stdin, NULL);
     fgets(fornecedor.email, 50, stdin);
 
-    } else if(op=='E'|| op=='e'){// opção para editar
+    } else if(op=='E'|| op=='e'){// Verifica se o usuário quer editar
+        // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
     
     printf("Digite o nome fantasia: ");
     setbuf(stdin, NULL);
@@ -459,10 +468,10 @@ Fornecedor cadastrar_dados_fornecedor(char op){
 
 //Sub-rotina que realiza o cadastro dos serviços
 Servico cadastrar_dados_servico(char op){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Servico servico;
 
-    if(op=='C'|| op=='c'){// opção para cadastrar
+    if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
 
     printf("Digite o código do serviço: ");
     setbuf(stdin, NULL);
@@ -483,7 +492,8 @@ Servico cadastrar_dados_servico(char op){
     scanf("%f", &servico.comissao);
     getchar();
 
-    } else  if(op=='E'|| op=='e'){// opção para editar
+    } else  if(op=='E'|| op=='e'){// Verifica se o usuário quer editar
+        // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
         
     printf("Digite a descrição do serviço: ");
     setbuf(stdin, NULL);
@@ -508,10 +518,10 @@ Servico cadastrar_dados_servico(char op){
 
 //Sub-rotina que realiza o cadastro dos funcionários
 Funcionario cadastrar_dados_funcionario(char op){
-    setlocale(LC_ALL, "pt_BR.UTF-8"); //define a locale para português do Brasil
+    setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Funcionario funcionario;
 
-    if(op=='C'|| op=='c'){// opção para cadastrar
+    if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
 
     printf("Digite o nome do funcionário: ");
     setbuf(stdin, NULL);
@@ -531,7 +541,8 @@ Funcionario cadastrar_dados_funcionario(char op){
     scanf("%f", &funcionario.salario);
     getchar();
 
-    } else if(op=='E'|| op=='e'){// opção para editar
+    } else if(op=='E'|| op=='e'){// Verifica se o usuário quer editar
+        // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
 
     printf("Digite o CPF: ");
     setbuf(stdin,NULL);

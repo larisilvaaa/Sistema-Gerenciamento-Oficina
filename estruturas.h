@@ -5,86 +5,84 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-// Subestrutura para armazenar o endereço
+// Subestrutura para armazenar os dados de endereço, já que vai ser usada em várias outras partes.
 typedef struct {
-    char estado[3];
-    char cidade[30];
-    int cep;
-    char bairro[30];
-    char rua[50];
-    int numero;
+    char estado[3]; // Estado, como "SP", "RJ", 2 letras + o '\0'.
+    char cidade[30]; // Nome da cidade.
+    int cep; // CEP para localização.
+    char bairro[30]; // Bairro do local.
+    char rua[50]; // Nome da rua ou avenida.
+    int numero; // Número do imóvel.
 } Endereco;
 
-// Estrutura principal para armazenar os dados do cliente da oficina
+// Estrutura principal para armazenar os dados da oficina, incluindo o lucro.
 typedef struct {
-    char nome[100];
-    long int cpf_cnpj;
-    Endereco endereco; // Usando a subestrutura Endereco
-    long int telefone;
-    char email[50];
-    float porcentagemLucro; // Usando float para representar a porcentagem
+    char nome[100]; // Nome da oficina.
+    long int cpf_cnpj; // CPF ou CNPJ da oficina.
+    Endereco endereco; // Subestrutura para organizar o endereço.
+    long int telefone; // Telefone para contato.
+    char email[50]; // E-mail da oficina.
+    float porcentagemLucro; // Porcentagem de lucro aplicada nos serviços.
 } Dados_Oficina;
 
-// Estrutura para armazenar os dados dos clientes
+// Estrutura para os clientes, que são fundamentais no sistema.
 typedef struct {
-    int codigo;               // Código do cliente
-    char nome[100];           // Nome do cliente
-    long int cpf_cnpj;            // CPF ou CNPJ
-    Endereco endereco;       // Endereço do cliente (usando a subestrutura)
-    long int telefone;            // Telefone
-    char email[50];           // E-mail
+    int codigo; // Código único do cliente.
+    char nome[100]; // Nome completo do cliente.
+    long int cpf_cnpj; // CPF ou CNPJ do cliente.
+    Endereco endereco; // Endereço completo do cliente.
+    long int telefone; // Telefone para contato.
+    char email[50]; // E-mail do cliente.
 } Cliente;
 
-// Estrutura para armazenar os dados dos veículos
+// Estrutura para os veículos que a oficina vai atender.
 typedef struct {
-    char placa[10];           // Placa do veículo
-    char modelo[30];          // Modelo do veículo
-    char marca[30];           // Marca do veículo
-    int anoFabricacao;        // Ano de fabricação do veículo
-    char chassi[20];          // Chassi do veículo
-    Cliente proprietario;    // Proprietário do veículo (tipo Cliente)
+    char placa[10]; // Placa do veículo.
+    char modelo[30]; // Modelo, como "Gol", "Civic".
+    char marca[30]; // Marca, como "Volkswagen", "Honda".
+    int anoFabricacao; // Ano de fabricação do veículo.
+    char chassi[20]; // Número do chassi, identificação única.
+    Cliente proprietario; // Dono do veículo, do tipo Cliente.
 } Veiculo;
 
-
-// Estrutura para armazenar os dados das peças
+// Estrutura para as peças usadas nos serviços da oficina.
 typedef struct {
-    int codigo;               // Código da peça
-    char descricao[100];      // Descrição da peça
-    char fabricante[50];      // Fabricante
-    char fornecedor[50];      // Nome do fornecedor
-    float precoCusto;         // Preço de custo
-    float precoVenda;         // Preço de venda
-    int quantidadeEstoque;    // Quantidade em estoque
-    int estoqueMinimo;        // Estoque mínimo
+    int codigo; // Código único da peça.
+    char descricao[100]; // Descrição da peça.
+    char fabricante[50]; // Fabricante responsável.
+    char fornecedor[50]; // Fornecedor da peça.
+    float precoCusto; // Preço pago pela oficina.
+    float precoVenda; // Preço de venda para o cliente.
+    int quantidadeEstoque; // Quantidade disponível no estoque.
+    int estoqueMinimo; // Estoque mínimo antes de repor.
 } Peca;
 
-// Estrutura para armazenar os dados dos fornecedores
+// Estrutura para os fornecedores das peças e outros itens.
 typedef struct {
-    int codigo;                  // Código do fornecedor (único)
-    char nomeFantasia[100];      // Nome fantasia
-    char razaoSocial[100];       // Razão social
-    char inscricaoEstadual[20]; // Inscrição estadual
-    long int cnpj;                   // CNPJ
-    Endereco endereco;          // Endereço completo
-    long int telefone;               // Telefone
-    char email[50];             // E-mail
+    int codigo; // Código único do fornecedor.
+    char nomeFantasia[100]; // Nome fantasia da empresa.
+    char razaoSocial[100]; // Razão social da empresa.
+    char inscricaoEstadual[20]; // Inscrição estadual.
+    long int cnpj; // CNPJ do fornecedor.
+    Endereco endereco; // Endereço completo do fornecedor.
+    long int telefone; // Telefone para contato.
+    char email[50]; // E-mail para comunicação.
 } Fornecedor;
 
-// Estrutura para armazenar os dados dos serviços oferecidos
+// Estrutura para os serviços que a oficina oferece.
 typedef struct {
-    int codigo;               // Código do serviço
-    char descricao[100];      // Descrição do serviço
-    float preco;              // Preço do serviço
-    float comissao;           // Comissão paga ao funcionário
+    int codigo; // Código único do serviço.
+    char descricao[100]; // Descrição do serviço.
+    float preco; // Preço do serviço para o cliente.
+    float comissao; // Comissão paga ao funcionário que executa o serviço.
 } Servico;
 
-// Estrutura para armazenar os dados dos funcionários
+// Estrutura para os funcionários que trabalham na oficina.
 typedef struct {
-    char nome[100];           // Nome do funcionário
-    long int cpf;                  // CPF
-    char cargo[50];           // Cargo
-    float salario;            // Salário
+    char nome[100]; // Nome completo do funcionário.
+    long int cpf; // CPF do funcionário.
+    char cargo[50]; // Cargo ocupado, como "Mecânico".
+    float salario; // Salário do funcionário.
 } Funcionario;
 
 #endif
