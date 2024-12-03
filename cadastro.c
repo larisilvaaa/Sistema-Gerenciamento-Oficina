@@ -11,12 +11,12 @@ Dados_Oficina cadastrar_dados_oficina(){
     // Coleta o nome do cliente
     printf("Digite o nome do cliente: ");
     setbuf(stdin, NULL); // Limpa o buffer para evitar problemas de entrada
-    fgets(cliente.nome, 100, stdin);
+    fgets(cliente.nome, 100, stdin); // lê todos os caracteres incluindo os espaços
 
     // Coleta o CPF ou CNPJ do cliente
     printf("Digite o CPF ou CNPJ (apenas números): ");
     setbuf(stdin, NULL);
-    scanf("%ld", &cliente.cpf_cnpj);
+    scanf("%ld", &cliente.cpf_cnpj); // long int para armazenar até 19 dígitos  
     getchar(); // Limpa o buffer após a entrada de números
 
     // Coleta o endereço do cliente
@@ -27,7 +27,7 @@ Dados_Oficina cadastrar_dados_oficina(){
 
     printf(" Número: ");
     setbuf(stdin, NULL);
-    scanf("%d", &cliente.endereco.numero);
+    scanf("%d", &cliente.endereco.numero); // armazena até 10 dígitos
     getchar();
 
     printf(" Bairro: ");
