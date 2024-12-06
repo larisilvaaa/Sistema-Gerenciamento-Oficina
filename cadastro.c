@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "arquivos.h"
 #include "estruturas.h" // Importa o cabeçalho com as definições das estruturas
 #include "cadastro.h"   // Importa o cabeçalho com as funções de cadastro
 #include <locale.h>    // Biblioteca para configurar a exibição de caracteres especiais no console
@@ -75,6 +76,7 @@ Dados_Oficina cadastrar_dados_oficina(){
 Cliente cadastrar_dados_cliente(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Cliente cliente;
+    int codigo, posicao;
 
     if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
         
@@ -129,8 +131,25 @@ Cliente cadastrar_dados_cliente(char op){
     setbuf(stdin, NULL);
     fgets(cliente.email, 50, stdin);
 
+    inicia_vetor_tamanhos();
+    if(vetor_tamanhos[1][1]==vetor_tamanhos[1][0]-1){
+        vetor_cliente=(Cliente*)realoca_vetor(vetor_cliente,vetor_tamanhos[1][0]+10, sizeof(Cliente),1);
+    }
+    vetor_cliente[vetor_tamanhos[1][1]]=cliente;
+    vetor_tamanhos[1][1]++;
+
+    return cliente;
+
     } else if(op=='E' || op=='e'){// Verifica se o usuário quer editar
         // A lógica para editar repete o preenchimento, mas ajustando para apenas os dados necessários
+        printf("Digite o código do cliente: ");
+        scanf("%d", &codigo);
+
+        posicao = procura_vetor_cliente(codigo);
+        if(posicao==-1){
+            printf("Cadastro não encontrado!\n");
+            return;
+        }
     
     printf("Digite o nome do cliente: ");
     setbuf(stdin, NULL);
@@ -177,12 +196,30 @@ Cliente cadastrar_dados_cliente(char op){
     printf("Digite o email: ");
     setbuf(stdin, NULL);
     fgets(cliente.email, 50, stdin);
+    vetor_cliente[posicao]=cliente;
+
+    return cliente;
 
     } else if(op=='V' || op=='v'){
         //opção para visualização do arquivo
+        printf("Digite o código do cliente: ");
+        scanf("%d", &codigo);
+
+        int posicao = procura_vetor_cliente(codigo);
+        if(posicao==-1){
+            printf("Cadastro não encontrado!\n");
+        }else{
+            //printar todos 
+            vetor_cliente[posicao].codigo;
+            vetor_cliente[posicao].cpf_cnpj;
+            vetor_cliente[posicao].email;
+            vetor_cliente[posicao].endereco;
+            vetor_cliente[posicao].nome;
+            vetor_cliente[posicao].telefone;
+
+        }
     }
    
-    return cliente;
 
 }
 

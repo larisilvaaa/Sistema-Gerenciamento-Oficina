@@ -42,7 +42,7 @@ typedef struct {
     char marca[30]; // Marca, como "Volkswagen", "Honda".
     int anoFabricacao; // Ano de fabricação do veículo.
     char chassi[20]; // Número do chassi, identificação única.
-    Cliente proprietario; // Dono do veículo, do tipo Cliente.
+    int proprietario; // Dono do veículo, do tipo Cliente.
 } Veiculo;
 
 // Estrutura para as peças usadas nos serviços da oficina.
