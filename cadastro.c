@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "arquivos.h"
+#include "arquivos.h"   //Importa o cabeçalho com as funções de memória 
 #include "estruturas.h" // Importa o cabeçalho com as definições das estruturas
 #include "cadastro.h"   // Importa o cabeçalho com as funções de cadastro
 #include <locale.h>    // Biblioteca para configurar a exibição de caracteres especiais no console
