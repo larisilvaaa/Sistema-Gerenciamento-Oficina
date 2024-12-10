@@ -4,7 +4,7 @@
 #include "estruturas.h" //inclusão da biblioteca estruturas para a implementação das structs
 
 //função que cadastra os dados da oficina
-Dados_Oficina cadastrar_dados_oficina(char op);
+Dados_Oficina cadastrar_dados_oficina();
 
 //função que cadastra os dados dos clientes
 Cliente cadastrar_dados_cliente(char op);
