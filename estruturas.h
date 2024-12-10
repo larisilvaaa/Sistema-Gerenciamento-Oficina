@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <sys/stat.h>
+
 
 // Subestrutura para armazenar os dados de endereço, já que vai ser usada em várias outras partes.
 typedef struct {
