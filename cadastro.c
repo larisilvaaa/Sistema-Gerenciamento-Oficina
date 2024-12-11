@@ -205,7 +205,7 @@ Cliente cadastrar_dados_cliente(char op){
         printf("Digite o código do cliente: ");
         scanf("%d", &codigo);
 
-        int posicao = procura_vetor_cliente(codigo);// procura o cadastro do cliente para ser visualizado
+        posicao = procura_vetor_cliente(codigo);// procura o cadastro do cliente para ser visualizado
         if(posicao==-1){
             printf("Cadastro não encontrado!\n");
             return;
