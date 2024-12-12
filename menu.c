@@ -1,16 +1,20 @@
 #include "estruturas.h"
 #include "cadastro.h"
-
+#include "arquivos.h"
+#include "menu.h"
+int execucao=1;
 /*Sub-rotina que apresenta o menu de opções do cadastro*/
 void menu_cadastro (){
     while(1){
+        system(CLEAR);
         char cadastro;
         int op,vizualizacao,codigo;
-        int indicie_inicial,indicie_final;
+        int indice_inicial,indice_final;
         printf("\nDigite a letra correspondente a opção desejada:\n");
         printf("C- Cadastrar\n");
         printf("E- Editar\n");
         printf("V- Vizualizar\n");
+        printf("A - Apagar\n");
         printf("S- Sair\n");
         printf("==> ");
         scanf(" %c",&cadastro);
@@ -29,44 +33,75 @@ void menu_cadastro (){
             printf("\n7- Funcionários\n");
             printf("==> ");
             scanf("%d",&op);
-
+            system(CLEAR);
             switch(op){
 
                 case 1:{
                     /*função de cadastro de dados da oficina*/
-                    Dados_Oficina oficina; 
-
-                    oficina = cadastrar_dados_oficina();
-
+                    oficina = cadastrar_dados_oficina(cadastro);
                     break;
                 }
                 case 2:{
-                    /*função de cadastro de dados do cliente*/
+                    /*função de cadastro de dados da oficina*/
+                    if(vetor_tamanhos[1][1]==vetor_tamanhos[1][0]-1){
+                        vetor_cliente=(Cliente*)realoca_vetor(vetor_cliente,vetor_tamanhos[1][0]+10, sizeof(Cliente),1);
+                    }
+                    vetor_cliente[vetor_tamanhos[1][1]]=cadastrar_dados_cliente(cadastro);
+                    define_codigo_cliente(vetor_tamanhos[1][1]);
+                    vetor_tamanhos[1][1]++;
                     break;
                 }
                 case 3:{
                     /*função de cadastro de dados de veículos*/
+                    if(vetor_tamanhos[2][1]==vetor_tamanhos[2][0]-1){
+                        vetor_veiculo=(Veiculo*)realoca_vetor(vetor_veiculo,vetor_tamanhos[2][0]+10, sizeof(Veiculo),2);
+                    }
+                    vetor_veiculo[vetor_tamanhos[2][1]]=cadastrar_dados_veiculo(cadastro);
+                    vetor_tamanhos[2][1]++;
                     break;
                 }
                 case 4:{
                     /*função de cadastro de dados de peças*/
+                    if(vetor_tamanhos[3][1]==vetor_tamanhos[3][0]-1){
+                        vetor_peca=(Peca*)realoca_vetor(vetor_peca,vetor_tamanhos[3][0]+10, sizeof(Peca),3);
+                    }
+                    vetor_peca[vetor_tamanhos[3][1]]=cadastrar_dados_peca(cadastro);
+                    define_codigo_peca(vetor_tamanhos[3][1]);
+                    vetor_tamanhos[3][1]++;
                     break;
                 }
                 case 5:{
                     /*função de cadastro de dados do fornecedor*/
+                    if(vetor_tamanhos[4][1]==vetor_tamanhos[4][0]-1){
+                        vetor_fornecedor=(Fornecedor*)realoca_vetor(vetor_fornecedor,vetor_tamanhos[4][0]+10, sizeof(Fornecedor),4);
+                    }
+                    vetor_fornecedor[vetor_tamanhos[4][1]]=cadastrar_dados_fornecedor(cadastro);
+                    define_codigo_fornecedor(vetor_tamanhos[4][1]);
+                    vetor_tamanhos[4][1]++;
                     break;
                 }
                 case 6:{
                     /*função de cadastro de dados de serviços*/
+                    if(vetor_tamanhos[5][1]==vetor_tamanhos[5][0]-1){
+                        vetor_servico=(Servico*)realoca_vetor(vetor_servico,vetor_tamanhos[5][0]+10, sizeof(Servico),5);
+                    }
+                    vetor_servico[vetor_tamanhos[5][1]]=cadastrar_dados_servico(cadastro);
+                    define_codigo_servico(vetor_tamanhos[5][1]);
+                    vetor_tamanhos[5][1]++;
                     break;
                 }
                 case 7:{
                     /*função de cadastro de dados do funcionário*/
+                    if(vetor_tamanhos[6][1]==vetor_tamanhos[6][0]-1){
+                        vetor_funcionario=(Funcionario*)realoca_vetor(vetor_funcionario,vetor_tamanhos[6][0]+10, sizeof(Funcionario),6);
+                    }
+                    vetor_funcionario[vetor_tamanhos[6][1]]=cadastrar_dados_funcionario(cadastro);
+                    vetor_tamanhos[6][1]++;
                     break;
                 }
 
             }
-        }
+        }else
 
         if(cadastro == 'E' || cadastro == 'e'){
             printf("------------------------\n");
@@ -87,38 +122,42 @@ void menu_cadastro (){
 
                 case 1:{
                     /*função de edição de dados da oficina*/
-                    Dados_Oficina oficina; 
-
-                    oficina = cadastrar_dados_oficina();
+                    oficina = cadastrar_dados_oficina(cadastro);
                     break;
                 }
                 case 2:{
                     /*função de edição de dados do cliente*/
+                    cadastrar_dados_cliente(cadastro);
                     break;
                 }
                 case 3:{
                     /*função de edição de dados de veículos*/
+                    cadastrar_dados_veiculo(cadastro);
                     break;
                 }
                 case 4:{
                     /*função de edição de dados de peças*/
+                    cadastrar_dados_peca(cadastro);
                     break;
                 }
                 case 5:{
                     /*função de edição de dados do fornecedor*/
+                    cadastrar_dados_fornecedor(cadastro);
                     break;
                 }
                 case 6:{
                     /*função de edição de dados de serviços*/
+                    cadastrar_dados_servico(cadastro);
                     break;
                 }
                 case 7:{
                     /*função de ediçao de dados do funcionário*/
+                    cadastrar_dados_funcionario(cadastro);
                     break;
                 }
 
             }
-        }
+        }else
 
         if(cadastro == 'V' || cadastro == 'v'){
             printf("------------------------\n");
@@ -134,233 +173,117 @@ void menu_cadastro (){
             printf("\n7- Funcionários\n");
             printf("==> ");
             scanf("%d",&op);
-            switch(op){
-
-                case 1:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar um cliente pelo código");
-                    printf("\n2- Vizualizar um conjunto de clientes");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite o código do cliente que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
+            if(op==1){
+                visualizar_dados(op, 0, 0, 0);
+            }else if(op>=1 || op<=7){
+                printf("\n\n------------------------\n");
+                printf("|     Menu de opções    |\n");
+                printf("|    de vizualização    |\n");
+                printf("------------------------\n");
+                printf("Selecione o que você gostaria de vizualizar:");
+                printf("\n1- Vizualizar um cadastro pelo código");
+                printf("\n2- Vizualizar um conjunto de cadastros\n");
+                printf("==> ");
+                scanf("%d",&vizualizacao);
+                system(CLEAR);
+                if(vizualizacao==1){
+                    visualizar_dados(op,vizualizacao,0,0);
                         /*função que verifica se existem dados cadastrados*/
                         /*função que vizualiza um cliente*/
                         /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie do primeiro cadastro");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie do último cadastro");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
+                }else if(vizualizacao==2){
+                    printf("\nDigite o indicie do primeiro cadastro");
+                    printf("\n==> ");
+                    scanf("%d",&indice_inicial);
+                    printf("\nDigite o indie do último cadastro");
+                    printf("\n==> ");
+                    scanf("%d",&indice_final);
+                    visualizar_dados(op,vizualizacao,indice_inicial,indice_final);
                 }
-                case 2:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar um cliente pelo código");
-                    printf("\n2- Vizualizar um conjunto de clientes");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite o código do cliente que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um cliente*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie do primeiro cadastro");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie do último cadastro");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
-                }
-                case 3:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar um veículo pela placa");
-                    printf("\n2- Vizualizar um conjunto de veículos");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite a placa do veículo que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um cliente*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie do primeiro veículo");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie do último veículo");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
-                }
-                case 4:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar uma peça pelo código");
-                    printf("\n2- Vizualizar um conjunto de peças");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite o código da peça que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um cliente*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie da primeira peça ");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie da última peça");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
-                }
-                case 5:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar um fornecedor pelo código");
-                    printf("\n2- Vizualizar um conjunto de fornecedores");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite o código do fornecedor que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um cliente*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie do primeiro fornecedor");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie do último fornecedor");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
-                }
-                case 6:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar um serviço pelo código");
-                    printf("\n2- Vizualizar um conjunto de serviços oferecidos pela oficina");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite o código do serviço que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um cliente*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie do primeiro serviço");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie do último serviço");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
-                }
-                case 7:{
-                    printf("------------------------\n");
-                    printf("|     Menu de opções    |\n");
-                    printf("|    de vizualização    |");
-                    printf("------------------------\n");
-                    printf("Selecione o que você gostaria de vizualizar:");
-                    printf("\n1- Vizualizar um funcionário pelo CPF");
-                    printf("\n2- Vizualizar um conjunto de funcionários");
-                    printf("==> ");
-                    scanf("%d",&vizualizacao);
-                    if(vizualizacao==1){
-                        printf("\nDigite o CPF do funcionário que você gostaria de vizualizar: ");
-                        printf("==> ");
-                        scanf("%d",&codigo)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um cliente*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    if(vizualizacao==2){
-                        printf("\nDigite o indicie do primeiro funcionário");
-                        printf("==> ");
-                        scanf("%d",&indicie_inicial);
-                        printf("\nDigite o indie do último funcionário");
-                        printf("==> ");
-                        scanf("%d",&indice_final)
-                        /*função que verifica se existem dados cadastrados*/
-                        /*função que vizualiza um grupo de clientes*/
-                        /*função que mostra os dados ao usuário*/
-                    }
-                    break;
-                }
-
             }
-        }
-        
+        }else
         if(cadastro == 'S' || cadastro == 's'){
             break;
+        }else if(cadastro=='A' || cadastro=='a'){
+            int posicao;
+            long int codigo_ld;
+            char texto[1024];
+            printf("------------------------\n");
+            printf("|     Menu de opções    |\n");
+            printf("------------------------\n");
+            printf("Selecione de qual cadastro você gostaria de apagar:");
+            printf("\n1- Clientes");
+            printf("\n2- Veículos");
+            printf("\n3- Peças");
+            printf("\n4- Fornecedores");
+            printf("\n5- Serviços");
+            printf("\n6- Funcionários\n");
+            printf("==> ");
+            scanf("%d",&op);
+
+            if(op==1){
+                printf("Digite o código do cliente: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_cliente(codigo);// Verifica se o cadastro desse cliente existe
+                if(posicao==-1){
+                    printf("Cadastro não encontrado!\n");
+                }else{
+                    exclui_em_vetor_cliente(posicao);
+                }
+            }else if(op==2){
+                printf("Digite a placa do veículo: ");
+                setbuf(stdin, NULL);
+                fgets(texto, 1024, stdin);
+                remove_barra_n(texto);
+                posicao = procura_vetor_veiculo(texto);// Verifica se o cadastro desse cliente existe
+                if(posicao==-1){
+                    printf("Cadastro não encontrado!\n");
+                }else{
+                    exclui_em_vetor_veiculo(posicao);
+                }
+            }else if(op==3){
+                printf("Digite o código da peça: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_peca(codigo);// Verifica se o cadastro desse cliente existe
+                if(posicao==-1){
+                    printf("Cadastro não encontrado!\n");
+                }else{
+                    exclui_em_vetor_peca(posicao);
+                }
+            }else if(op==4){
+                printf("Digite o código do fornecedor: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_fornecedor(codigo);// Verifica se o cadastro desse cliente existe
+                if(posicao==-1){
+                    printf("Cadastro não encontrado!\n");
+                }else{
+                    exclui_em_vetor_fornecedor(posicao);
+                }
+            }else if(op==5){
+                printf("Digite o código do servico: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_servico(codigo);// Verifica se o cadastro desse cliente existe
+                if(posicao==-1){
+                    printf("Cadastro não encontrado!\n");
+                }else{
+                    exclui_em_vetor_servico(posicao);
+                }
+            }else if(op==6){
+                printf("Digite o cpf do funcionario: ");
+                scanf("%ld", &codigo_ld);
+
+                posicao = procura_vetor_funcionario(codigo_ld);// Verifica se o cadastro desse cliente existe
+                if(posicao==-1){
+                    printf("Cadastro não encontrado!\n");
+                }else{
+                    exclui_em_vetor_funcionario(posicao);
+                }
+            }
         }
+        PAUSE();
     }
-    
-    
 }

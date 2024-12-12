@@ -4,13 +4,20 @@
 #include "cadastro.h"   // Importa o cabeçalho com as funções de cadastro
 #include <locale.h>    // Biblioteca para configurar a exibição de caracteres especiais no console
 
+void remove_barra_n(char *str) {
+    char *pos;
+    if ((pos = strchr(str, '\n')) != NULL) {
+        *pos = '\0';
+    }
+}
+
 // Sub-rotina que realiza o cadastro das informações da oficina
-Dados_Oficina cadastrar_dados_oficina(){
+Dados_Oficina cadastrar_dados_oficina(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
     Dados_Oficina cliente; // Variável para armazenar os dados do cliente
     
     // Coleta o nome do cliente
-    printf("Digite o nome do cliente: ");
+    printf("Digite o nome da oficina: ");
     setbuf(stdin, NULL); // Limpa o buffer para evitar problemas de entrada
     fgets(cliente.nome, 100, stdin); // lê todos os caracteres incluindo os espaços
 
@@ -66,6 +73,13 @@ Dados_Oficina cadastrar_dados_oficina(){
     setbuf(stdin, NULL);
     scanf("%f", &cliente.porcentagemLucro);
     getchar();
+    
+    remove_barra_n(cliente.nome);
+    remove_barra_n(cliente.email);
+    remove_barra_n(cliente.endereco.estado);
+    remove_barra_n(cliente.endereco.cidade);
+    remove_barra_n(cliente.endereco.bairro);
+    remove_barra_n(cliente.endereco.rua);
 
     // Retorna os dados preenchidos
     return cliente;
@@ -75,16 +89,11 @@ Dados_Oficina cadastrar_dados_oficina(){
 //Sub-rotina que realiza o cadastro dos clientes
 Cliente cadastrar_dados_cliente(char op){
     setlocale(LC_ALL, "pt_BR.UTF-8"); // Configura o programa para suportar caracteres especiais do português
-    Cliente cliente;
     int codigo, posicao;
+    Cliente cliente;
 
     if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
-        
-    printf("Digite o código do cliente: ");
-    setbuf(stdin, NULL);
-    scanf("%d", &cliente.codigo);
-    getchar();
-
+    
     printf("Digite o nome do cliente: ");
     setbuf(stdin, NULL);
     fgets(cliente.nome, 100, stdin);
@@ -131,12 +140,12 @@ Cliente cadastrar_dados_cliente(char op){
     setbuf(stdin, NULL);
     fgets(cliente.email, 50, stdin);
 
-    inicia_vetor_tamanhos();
-    if(vetor_tamanhos[1][1]==vetor_tamanhos[1][0]-1){
-        vetor_cliente=(Cliente*)realoca_vetor(vetor_cliente,vetor_tamanhos[1][0]+10, sizeof(Cliente),1);
-    }
-    vetor_cliente[vetor_tamanhos[1][1]]=cliente;
-    vetor_tamanhos[1][1]++;
+    remove_barra_n(cliente.nome);
+    remove_barra_n(cliente.email);
+    remove_barra_n(cliente.endereco.estado);
+    remove_barra_n(cliente.endereco.cidade);
+    remove_barra_n(cliente.endereco.bairro);
+    remove_barra_n(cliente.endereco.rua);
 
     return cliente;
 
@@ -196,35 +205,19 @@ Cliente cadastrar_dados_cliente(char op){
     printf("Digite o email: ");
     setbuf(stdin, NULL);
     fgets(cliente.email, 50, stdin);
+    cliente.codigo=codigo;
+
+    remove_barra_n(cliente.nome);
+    remove_barra_n(cliente.email);
+    remove_barra_n(cliente.endereco.estado);
+    remove_barra_n(cliente.endereco.cidade);
+    remove_barra_n(cliente.endereco.bairro);
+    remove_barra_n(cliente.endereco.rua);
+
     vetor_cliente[posicao]=cliente;
 
     return cliente;
 
-    } else if(op=='V' || op=='v'){
-        //opção para visualização do arquivo
-        printf("Digite o código do cliente: ");
-        scanf("%d", &codigo);
-
-        posicao = procura_vetor_cliente(codigo);// procura o cadastro do cliente para ser visualizado
-        if(posicao==-1){
-            printf("Cadastro não encontrado!\n");
-            return;
-        }else{
-            printf("\n------------------Dados do cliente------------------\n\n");
-            printf("Código: %d.\n", vetor_cliente[posicao].codigo);
-            printf("Nome: %s.\n", vetor_cliente[posicao].nome);
-            printf("CPF ou CNPJ: %ld.\n", vetor_cliente[posicao].cpf_cnpj);
-            printf("Endereço:\n");
-            printf("    Rua: %s.\n", vetor_cliente[posicao].endereco.rua);
-            printf("    Número: %d.\n", vetor_cliente[posicao].endereco.numero);
-            printf("    Bairro: %s.\n", vetor_cliente[posicao].endereco.bairro);
-            printf("    Cidade: %s.\n", vetor_cliente[posicao].endereco.cidade);
-            printf("    Estado: %s.\n", vetor_cliente[posicao].endereco.estado);
-            printf("    CEP: %d.\n", vetor_cliente[posicao].endereco.cep);
-            printf("Telefone: %ld.\n", vetor_cliente[posicao].telefone);
-            printf("Email: %s.\n", vetor_cliente[posicao].email);
-  
-        }
     }
    
 
@@ -259,17 +252,15 @@ Veiculo cadastrar_dados_veiculo(char op){
     setbuf(stdin, NULL);
     fgets(veiculo.chassi, 20, stdin);
 
-    printf("Digite o código do cliente: ");
+    printf("Digite o código do cliente dono do veículo: ");
     setbuf(stdin,NULL);
     scanf("%d", &veiculo.proprietario);
     getchar();
 
-     inicia_vetor_tamanhos();
-    if(vetor_tamanhos[2][1]==vetor_tamanhos[2][0]-1){
-        vetor_veiculo=(Veiculo*)realoca_vetor(vetor_veiculo,vetor_tamanhos[2][0]+10, sizeof(Veiculo),1);
-    }
-    vetor_veiculo[vetor_tamanhos[2][1]]=veiculo;
-    vetor_tamanhos[2][1]++;
+    remove_barra_n(veiculo.placa);
+    remove_barra_n(veiculo.modelo);
+    remove_barra_n(veiculo.marca);
+    remove_barra_n(veiculo.chassi);
 
     return veiculo;
 
@@ -279,8 +270,9 @@ Veiculo cadastrar_dados_veiculo(char op){
     printf("Digite a placa do veículo: ");
     setbuf(stdin, NULL);
     fgets(veiculo.placa, 10, stdin);
+    remove_barra_n(veiculo.placa);
 
-    posicao = procura_vetor_veiculo(placa);// Verifica se o cadastro desse veículo existe
+    posicao = procura_vetor_veiculo(veiculo.placa);// Verifica se o cadastro desse veículo existe
     if(posicao==-1){
         printf("Cadastro não encontrado!\n");
         return;
@@ -309,28 +301,13 @@ Veiculo cadastrar_dados_veiculo(char op){
     getchar();
     vetor_veiculo[posicao]=veiculo;
 
+    remove_barra_n(veiculo.placa);
+    remove_barra_n(veiculo.modelo);
+    remove_barra_n(veiculo.marca);
+    remove_barra_n(veiculo.chassi);
+
     return veiculo;
 
-    } else if(op=='V' || op=='v'){
-        //opção para a visualização do arquivo
-        printf("Digite a placa do veículo: ");
-        setbuf(stdin, NULL);
-        fgets(veiculo.placa, 10, stdin);
-
-        int posicao = procura_vetor_veiculo(placa);// procura o cadastro do veículo para ser visualizado
-        if(posicao==-1){
-            printf("Cadastro não encontrado!\n");
-            return;
-        }else{
-            printf("\n------------------Dados do veículo------------------\n\n");
-            printf("Placa: %s.\n", vetor_veiculo[posicao].placa);
-            printf("Modelo: %s.\n", vetor_veiculo[posicao].modelo);
-            printf("Marca: %s.\n", vetor_veiculo[posicao].marca);
-            printf("Ano: %d\n", vetor_veiculo[posicao].anoFabricacao);
-            printf("Chassi: %s.\n", vetor_veiculo[posicao].chassi);
-            printf("Código do proprietário: %d.\n", vetor_veiculo[posicao].proprietario);
-  
-        }
     }
 
 }
@@ -342,11 +319,6 @@ Peca cadastrar_dados_peca(char op){
     int codigo, posicao;
 
     if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
-    printf("Digite o código da peça: ");
-    setbuf(stdin,NULL);
-    scanf("%d", &peca.codigo);
-    getchar();
-
     printf("Descrição da peça: ");
     setbuf(stdin, NULL);
     fgets(peca.descricao, 100, stdin);
@@ -379,12 +351,9 @@ Peca cadastrar_dados_peca(char op){
     scanf("%d", &peca.estoqueMinimo);
     getchar();
 
-    inicia_vetor_tamanhos();
-    if(vetor_tamanhos[3][1]==vetor_tamanhos[3][0]-1){
-        vetor_peca=(Peca*)realoca_vetor(vetor_peca,vetor_tamanhos[3][0]+10, sizeof(Peca),1);
-    }
-    vetor_peca[vetor_tamanhos[3][1]]=peca;
-    vetor_tamanhos[3][1]++;
+    remove_barra_n(peca.descricao);
+    remove_barra_n(peca.fabricante);
+    remove_barra_n(peca.fornecedor);
 
     return peca;
 
@@ -431,32 +400,16 @@ Peca cadastrar_dados_peca(char op){
     setbuf(stdin,NULL);
     scanf("%d", &peca.estoqueMinimo);
     getchar();
+    peca.codigo=codigo;
+
+    remove_barra_n(peca.descricao);
+    remove_barra_n(peca.fabricante);
+    remove_barra_n(peca.fornecedor);
 
     vetor_peca[posicao]=peca;
 
     return peca;
 
-    } else if(op=='V' || op=='v'){
-        //opção para a visualização do arquivo
-        printf("Digite o código da peça: ");
-        scanf("%d", &codigo);
-
-        int posicao = procura_vetor_peca(codigo);// procura o cadastro da peça para ser visualizado
-        if(posicao==-1){
-            printf("Cadastro não encontrado!\n");
-            return;
-        }else{
-            printf("\n------------------Dados da peça------------------\n\n");
-            printf("Código: %d.\n", vetor_peca[posicao].codigo);
-            printf("Descrição: %s.\n", vetor_peca[posicao].descricao);
-            printf("Fabricante: %s.\n", vetor_peca[posicao].fabricante);
-            printf("Fornecedor: %s\n", vetor_peca[posicao].fornecedor);
-            printf("Preço de custo: %f.\n", vetor_peca[posicao].precoCusto);
-            printf("Preço de venda: %f.\n", vetor_peca[posicao].precoVenda);
-            printf("Quantidade de estoque: %d.\n", vetor_peca[posicao].quantidadeEstoque);
-            printf("Estoque mínimo: %d.\n", vetor_peca[posicao].estoqueMinimo);
-  
-        }
     }
     
 }
@@ -468,12 +421,6 @@ Fornecedor cadastrar_dados_fornecedor(char op){
     int codigo, posicao;
 
     if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
-
-    printf("Digite o código do fornecedor: ");
-    setbuf(stdin, NULL);
-    scanf("%d", &fornecedor.codigo);
-    getchar();
-
     printf("Digite o nome fantasia: ");
     setbuf(stdin, NULL);
     fgets(fornecedor.nomeFantasia, 100, stdin);
@@ -528,12 +475,14 @@ Fornecedor cadastrar_dados_fornecedor(char op){
     setbuf(stdin, NULL);
     fgets(fornecedor.email, 50, stdin);
 
-    inicia_vetor_tamanhos();
-    if(vetor_tamanhos[4][1]==vetor_tamanhos[4][0]-1){
-        vetor_fornecedor=(Fornecedor*)realoca_vetor(vetor_fornecedor,vetor_tamanhos[4][0]+10, sizeof(Fornecedor),1);
-    }
-    vetor_fornecedor[vetor_tamanhos[4][1]]=fornecedor;
-    vetor_tamanhos[4][1]++;
+    remove_barra_n(fornecedor.nomeFantasia);
+    remove_barra_n(fornecedor.razaoSocial);
+    remove_barra_n(fornecedor.inscricaoEstadual);
+    remove_barra_n(fornecedor.email);
+    remove_barra_n(fornecedor.endereco.estado);
+    remove_barra_n(fornecedor.endereco.cidade);
+    remove_barra_n(fornecedor.endereco.bairro);
+    remove_barra_n(fornecedor.endereco.rua);
 
     return fornecedor;
 
@@ -601,38 +550,21 @@ Fornecedor cadastrar_dados_fornecedor(char op){
     printf("Digite o email: ");
     setbuf(stdin, NULL);
     fgets(fornecedor.email, 50, stdin);
+    fornecedor.codigo=codigo;
+
+    remove_barra_n(fornecedor.nomeFantasia);
+    remove_barra_n(fornecedor.razaoSocial);
+    remove_barra_n(fornecedor.inscricaoEstadual);
+    remove_barra_n(fornecedor.email);
+    remove_barra_n(fornecedor.endereco.estado);
+    remove_barra_n(fornecedor.endereco.cidade);
+    remove_barra_n(fornecedor.endereco.bairro);
+    remove_barra_n(fornecedor.endereco.rua);
 
     vetor_fornecedor[posicao]=fornecedor;
 
     return fornecedor;
 
-    } else if(op=='V' || op=='v'){
-        //opção para a visualização do arquivo
-        printf("Digite o código do fornecedor: ");
-        scanf("%d", &codigo);
-
-        int posicao = procura_vetor_fornecedor(codigo);// procura o cadastro do fornecedor para ser visualizado
-        if(posicao==-1){
-            printf("Cadastro não encontrado!\n");
-            return;
-        }else{
-            printf("\n------------------Dados do fornecedor------------------\n\n");
-            printf("Código: %d.\n", vetor_fornecedor[posicao].codigo);
-            printf("Nome fantasia: %s.\n", vetor_fornecedor[posicao].nomeFantasia);
-            printf("Razão social: %s.\n", vetor_fornecedor[posicao].razaoSocial);
-            printf("Inscrição estadual: %s\n", vetor_fornecedor[posicao].inscricaoEstadual);
-            printf("CNPJ: %ld.\n", vetor_fornecedor[posicao].cnpj);
-            printf("Endereço:\n");
-            printf("    Rua: %s.\n", vetor_fornecedor[posicao].endereco.rua);
-            printf("    Número: %d.\n", vetor_fornecedor[posicao].endereco.numero);
-            printf("    Bairro: %s.\n", vetor_fornecedor[posicao].endereco.bairro);
-            printf("    Cidade: %s.\n", vetor_fornecedor[posicao].endereco.cidade);
-            printf("    Estado: %s.\n", vetor_fornecedor[posicao].endereco.estado);
-            printf("    CEP: %d.\n", vetor_fornecedor[posicao].endereco.cep);
-            printf("Telefone: %d.\n", vetor_fornecedor[posicao].telefone);
-            printf("Email: %d.\n", vetor_fornecedor[posicao].email);
-  
-        }
     }
 
 }
@@ -644,12 +576,6 @@ Servico cadastrar_dados_servico(char op){
     int codigo, posicao;
 
     if(op=='C'|| op=='c'){// Verifica se o usuário quer cadastrar
-
-    printf("Digite o código do serviço: ");
-    setbuf(stdin, NULL);
-    scanf("%d", &servico.codigo);
-    getchar();
-
     printf("Digite a descrição do serviço: ");
     setbuf(stdin, NULL);
     fgets(servico.descricao, 100, stdin);
@@ -664,12 +590,7 @@ Servico cadastrar_dados_servico(char op){
     scanf("%f", &servico.comissao);
     getchar();
 
-    inicia_vetor_tamanhos();
-    if(vetor_tamanhos[5][1]==vetor_tamanhos[5][0]-1){
-        vetor_servico=(Servico*)realoca_vetor(vetor_servico,vetor_tamanhos[5][0]+10, sizeof(Servico),1);
-    }
-    vetor_servico[vetor_tamanhos[5][1]]=servico;
-    vetor_tamanhos[5][1]++;
+    remove_barra_n(servico.descricao);    
 
     return servico;
 
@@ -697,27 +618,13 @@ Servico cadastrar_dados_servico(char op){
     scanf("%f", &servico.comissao);
     getchar();
 
+    servico.codigo=codigo;
+    remove_barra_n(servico.descricao);
+
     vetor_servico[posicao]=servico;
 
     return servico;
 
-    } else if(op=='V' || op=='v'){
-        //opção para a visualização do arquivo
-        printf("Digite o código do serviço: ");
-        scanf("%d", &codigo);
-
-        int posicao = procura_vetor_servico(codigo);// procura o cadastro do serviço para ser visualizado
-        if(posicao==-1){
-            printf("Cadastro não encontrado!\n");
-            return;
-        }else{
-            printf("\n------------------Dados do serviço------------------\n\n");
-            printf("Código: %d.\n", vetor_servico[posicao].codigo);
-            printf("Descrição: %s.\n", vetor_servico[posicao].descricao);
-            printf("Preço: %f.\n", vetor_servico[posicao].preco);
-            printf("Comissão: %f.\n", vetor_servico[posicao].comissao);
-            
-        }
     }
 
 }
@@ -749,12 +656,8 @@ Funcionario cadastrar_dados_funcionario(char op){
     scanf("%f", &funcionario.salario);
     getchar();
 
-    inicia_vetor_tamanhos();
-    if(vetor_tamanhos[6][1]==vetor_tamanhos[6][0]-1){
-        vetor_funcionario=(Funcionario*)realoca_vetor(vetor_funcionario,vetor_tamanhos[6][0]+10, sizeof(Funcionario),1);
-    }
-    vetor_funcionario[vetor_tamanhos[6][1]]=funcionario;
-    vetor_tamanhos[6][1]++;
+    remove_barra_n(funcionario.nome);
+    remove_barra_n(funcionario.cargo);
 
     return funcionario;
 
@@ -768,6 +671,10 @@ Funcionario cadastrar_dados_funcionario(char op){
         printf("Cadastro não encontrado!\n");
         return;
     }
+
+    printf("Digite o nome do funcionário: ");
+    setbuf(stdin, NULL);
+    fgets(funcionario.nome, 100, stdin);
 
     printf("Digite o CPF: ");
     setbuf(stdin,NULL);
@@ -783,27 +690,284 @@ Funcionario cadastrar_dados_funcionario(char op){
     scanf("%f", &funcionario.salario);
     getchar();
 
+    remove_barra_n(funcionario.nome);
+    remove_barra_n(funcionario.cargo);
+
     vetor_funcionario[posicao]=funcionario;
 
     return funcionario;
 
-    } else if(op=='V' || op=='v'){
-        //opção para a visualização do arquivo
-        printf("Digite o CPF do funcionário: ");
-        scanf("%ld", &cpf);
-
-        int posicao = procura_vetor_funcionario(cpf);// procura o cadastro do funcionário para ser visualizado
-        if(posicao==-1){
-            printf("Cadastro não encontrado!\n");
-            return;
-        }else{
-            printf("\n------------------Dados do funcionário------------------\n\n");
-            printf("Nome: %s.\n", vetor_funcionario[posicao].nome);
-            printf("CPF: %ld.\n", vetor_funcionario[posicao].cpf);
-            printf("Cargo: %s.\n", vetor_funcionario[posicao].cargo);
-            printf("Salário: %f.\n", vetor_funcionario[posicao].salario);
-            
-        }
     }
+}
 
+void visualizar_dados(int escolha, int tipo, int indice_inicial, int indice_final){
+    int codigo, posicao;
+    long int codigo_ld;
+    char texto[1024];
+    switch(escolha){
+        case 1:
+            printf("\n\n------------------Dados da Oficina-----------------\n\n");
+            printf("Nome: %s.\n", oficina.nome);
+            printf("CPF ou CNPJ: %ld.\n", oficina.cpf_cnpj);
+            printf("Endereço:\n");
+            printf("    Rua: %s.\n", oficina.endereco.rua);
+            printf("    Número: %d.\n", oficina.endereco.numero);
+            printf("    Bairro: %s.\n", oficina.endereco.bairro);
+            printf("    Cidade: %s.\n", oficina.endereco.cidade);
+            printf("    Estado: %s.\n", oficina.endereco.estado);
+            printf("    CEP: %d.\n", oficina.endereco.cep);
+            printf("Telefone: %ld.\n", oficina.telefone);
+            printf("Email: %s.\n", oficina.email);
+            printf("Porcentagem Lucro: %.2f%%.\n", oficina.porcentagemLucro);
+            printf("\n---------------------------------------------------\n\n");
+            break;
+        case 2:
+            if(tipo==1){
+                printf("Digite o código do cliente: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_cliente(codigo);// procura o cadastro do cliente para ser visualizado
+                if(posicao==-1){
+                    printf("\nCadastro não encontrado!\n");
+                    return;
+                }else{
+                    printf("\n\n------------------Dados do cliente------------------\n\n");
+                    printf("Código: %d.\n", vetor_cliente[posicao].codigo);
+                    printf("Nome: %s.\n", vetor_cliente[posicao].nome);
+                    printf("CPF ou CNPJ: %ld.\n", vetor_cliente[posicao].cpf_cnpj);
+                    printf("Endereço:\n");
+                    printf("    Rua: %s.\n", vetor_cliente[posicao].endereco.rua);
+                    printf("    Número: %d.\n", vetor_cliente[posicao].endereco.numero);
+                    printf("    Bairro: %s.\n", vetor_cliente[posicao].endereco.bairro);
+                    printf("    Cidade: %s.\n", vetor_cliente[posicao].endereco.cidade);
+                    printf("    Estado: %s.\n", vetor_cliente[posicao].endereco.estado);
+                    printf("    CEP: %d.\n", vetor_cliente[posicao].endereco.cep);
+                    printf("Telefone: %ld.\n", vetor_cliente[posicao].telefone);
+                    printf("Email: %s.\n", vetor_cliente[posicao].email);
+                    printf("\n----------------------------------------------------\n\n");
+  
+                }
+            }else{
+                if(indice_inicial<0){
+                    indice_inicial=0;
+                }
+                if(indice_final>vetor_tamanhos[1][1]-1){
+                    indice_final=vetor_tamanhos[1][1]-1;
+                }
+                printf("\n\n------------------Dados do cliente------------------\n\n");
+                for(int i=indice_inicial;i<indice_final+1;i++){
+                    printf("Código: %d.\n", vetor_cliente[i].codigo);
+                    printf("Nome: %s.\n", vetor_cliente[i].nome);
+                    printf("CPF ou CNPJ: %ld.\n", vetor_cliente[i].cpf_cnpj);
+                    printf("Endereço:\n");
+                    printf("    Rua: %s.\n", vetor_cliente[i].endereco.rua);
+                    printf("    Número: %d.\n", vetor_cliente[i].endereco.numero);
+                    printf("    Bairro: %s.\n", vetor_cliente[i].endereco.bairro);
+                    printf("    Cidade: %s.\n", vetor_cliente[i].endereco.cidade);
+                    printf("    Estado: %s.\n", vetor_cliente[i].endereco.estado);
+                    printf("    CEP: %d.\n", vetor_cliente[i].endereco.cep);
+                    printf("Telefone: %ld.\n", vetor_cliente[i].telefone);
+                    printf("Email: %s.\n", vetor_cliente[i].email);
+                    printf("\n----------------------------------------------------\n\n");
+                }
+            }
+            break;
+        case 3:
+            if(tipo==1){
+                printf("\nDigite a placa do carro: ");
+                setbuf(stdin, NULL);
+                fgets(texto, 1024, stdin);
+                remove_barra_n(texto);
+                posicao=procura_vetor_veiculo(texto);
+                if(posicao==-1){
+                    printf("\nCadastro não encontrado!");
+                }else{
+                    printf("\n\n------------------Dados do veículo------------------\n\n");
+                    printf("Placa: %s.\n", vetor_veiculo[posicao].placa);
+                    printf("Modelo: %s.\n", vetor_veiculo[posicao].modelo);
+                    printf("Marca: %s.\n", vetor_veiculo[posicao].marca);
+                    printf("Ano: %d\n", vetor_veiculo[posicao].anoFabricacao);
+                    printf("Chassi: %s.\n", vetor_veiculo[posicao].chassi);
+                    printf("Código do proprietário: %d.\n", vetor_veiculo[posicao].proprietario);
+                }
+            }else{
+                if(indice_inicial<0){
+                    indice_inicial=0;
+                }
+                if(indice_final>vetor_tamanhos[2][1]-1){
+                    indice_final=vetor_tamanhos[2][1]-1;
+                }
+                printf("\n\n------------------Dados do veículo------------------\n\n");
+                for(int i=indice_inicial;i<indice_final+1;i++){
+                    printf("Placa: %s.\n", vetor_veiculo[i].placa);
+                    printf("Modelo: %s.\n", vetor_veiculo[i].modelo);
+                    printf("Marca: %s.\n", vetor_veiculo[i].marca);
+                    printf("Ano: %d\n", vetor_veiculo[i].anoFabricacao);
+                    printf("Chassi: %s.\n", vetor_veiculo[i].chassi);
+                    printf("Código do proprietário: %d.\n\n", vetor_veiculo[i].proprietario);
+                }
+            }
+            break;
+        case 4:
+            if(tipo==1){
+                printf("Digite o código da peça: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_peca(codigo);// procura o cadastro do cliente para ser visualizado
+                if(posicao==-1){
+                    printf("\nCadastro não encontrado!\n");
+                    return;
+                }else{
+                    printf("\n------------------Dados da peça------------------\n\n");
+                    printf("Código: %d.\n", vetor_peca[posicao].codigo);
+                    printf("Descrição: %s.\n", vetor_peca[posicao].descricao);
+                    printf("Fabricante: %s.\n", vetor_peca[posicao].fabricante);
+                    printf("Fornecedor: %s\n", vetor_peca[posicao].fornecedor);
+                    printf("Preço de custo: %f.\n", vetor_peca[posicao].precoCusto);
+                    printf("Preço de venda: %f.\n", vetor_peca[posicao].precoVenda);
+                    printf("Quantidade de estoque: %d.\n", vetor_peca[posicao].quantidadeEstoque);
+                    printf("Estoque mínimo: %d.\n", vetor_peca[posicao].estoqueMinimo);
+                    printf("\n--------------------------------------------------\n\n");
+  
+                }
+            }else{
+                if(indice_inicial<0){
+                    indice_inicial=0;
+                }
+                if(indice_final>vetor_tamanhos[3][1]-1){
+                    indice_final=vetor_tamanhos[3][1]-1;
+                }
+                printf("\n\n------------------Dados da peça------------------\n\n");
+                for(int i=indice_inicial;i<indice_final+1;i++){
+                    printf("Código: %d.\n", vetor_peca[i].codigo);
+                    printf("Descrição: %s.\n", vetor_peca[i].descricao);
+                    printf("Fabricante: %s.\n", vetor_peca[i].fabricante);
+                    printf("Fornecedor: %s\n", vetor_peca[i].fornecedor);
+                    printf("Preço de custo: %f.\n", vetor_peca[i].precoCusto);
+                    printf("Preço de venda: %f.\n", vetor_peca[i].precoVenda);
+                    printf("Quantidade de estoque: %d.\n", vetor_peca[i].quantidadeEstoque);
+                    printf("Estoque mínimo: %d.\n", vetor_peca[i].estoqueMinimo);
+                    printf("\n--------------------------------------------------\n\n");
+                }
+            }
+            break;
+        case 5:
+            if(tipo==1){
+                printf("Digite o código do fornecedor: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_fornecedor(codigo);// procura o cadastro do cliente para ser visualizado
+                if(posicao==-1){
+                    printf("\nCadastro não encontrado!\n");
+                    return;
+                }else{
+                    printf("\n------------------Dados do fornecedor------------------\n\n");
+                    printf("Código: %d.\n", vetor_fornecedor[posicao].codigo);
+                    printf("Nome fantasia: %s.\n", vetor_fornecedor[posicao].nomeFantasia);
+                    printf("Razão social: %s.\n", vetor_fornecedor[posicao].razaoSocial);
+                    printf("Inscrição estadual: %s\n", vetor_fornecedor[posicao].inscricaoEstadual);
+                    printf("CNPJ: %ld.\n", vetor_fornecedor[posicao].cnpj);
+                    printf("Endereço:\n");
+                    printf("    Rua: %s.\n", vetor_fornecedor[posicao].endereco.rua);
+                    printf("    Número: %d.\n", vetor_fornecedor[posicao].endereco.numero);
+                    printf("    Bairro: %s.\n", vetor_fornecedor[posicao].endereco.bairro);
+                    printf("    Cidade: %s.\n", vetor_fornecedor[posicao].endereco.cidade);
+                    printf("    Estado: %s.\n", vetor_fornecedor[posicao].endereco.estado);
+                    printf("    CEP: %d.\n", vetor_fornecedor[posicao].endereco.cep);
+                    printf("Telefone: %ld.\n", vetor_fornecedor[posicao].telefone);
+                    printf("Email: %s.\n", vetor_fornecedor[posicao].email);
+                }
+            }else{
+                if(indice_inicial<0){
+                    indice_inicial=0;
+                }
+                if(indice_final>vetor_tamanhos[4][1]-1){
+                    indice_final=vetor_tamanhos[4][1]-1;
+                }
+                printf("\n\n------------------Dados do fornecedor------------------\n\n");
+                for(int i=indice_inicial;i<indice_final+1;i++){
+                    printf("Código: %d.\n", vetor_fornecedor[i].codigo);
+                    printf("Nome fantasia: %s.\n", vetor_fornecedor[i].nomeFantasia);
+                    printf("Razão social: %s.\n", vetor_fornecedor[i].razaoSocial);
+                    printf("Inscrição estadual: %s\n", vetor_fornecedor[i].inscricaoEstadual);
+                    printf("CNPJ: %ld.\n", vetor_fornecedor[i].cnpj);
+                    printf("Endereço:\n");
+                    printf("    Rua: %s.\n", vetor_fornecedor[i].endereco.rua);
+                    printf("    Número: %d.\n", vetor_fornecedor[i].endereco.numero);
+                    printf("    Bairro: %s.\n", vetor_fornecedor[i].endereco.bairro);
+                    printf("    Cidade: %s.\n", vetor_fornecedor[i].endereco.cidade);
+                    printf("    Estado: %s.\n", vetor_fornecedor[i].endereco.estado);
+                    printf("    CEP: %d.\n", vetor_fornecedor[i].endereco.cep);
+                    printf("Telefone: %ld.\n", vetor_fornecedor[i].telefone);
+                    printf("Email: %s.\n\n", vetor_fornecedor[i].email);
+                }
+            }
+            break;
+        case 6:
+            if(tipo==1){
+                printf("Digite o código do serviço: ");
+                scanf("%d", &codigo);
+
+                posicao = procura_vetor_servico(codigo);// procura o cadastro do cliente para ser visualizado
+                if(posicao==-1){
+                    printf("\nCadastro não encontrado!\n");
+                    return;
+                }else{
+                    printf("\n------------------Dados do serviço------------------\n\n");
+                    printf("Código: %d.\n", vetor_servico[posicao].codigo);
+                    printf("Descrição: %s.\n", vetor_servico[posicao].descricao);
+                    printf("Preço: %f.\n", vetor_servico[posicao].preco);
+                    printf("Comissão: %f.\n\n", vetor_servico[posicao].comissao);
+                }
+            }else{
+                if(indice_inicial<0){
+                    indice_inicial=0;
+                }
+                if(indice_final>vetor_tamanhos[5][1]-1){
+                    indice_final=vetor_tamanhos[5][1]-1;
+                }
+                printf("\n------------------Dados do serviço------------------\n\n");
+                for(int i=indice_inicial;i<indice_final+1;i++){
+                    printf("\n------------------Dados do serviço------------------\n\n");
+                    printf("Código: %d.\n", vetor_servico[i].codigo);
+                    printf("Descrição: %s.\n", vetor_servico[i].descricao);
+                    printf("Preço: %f.\n", vetor_servico[i].preco);
+                    printf("Comissão: %f.\n\n", vetor_servico[i].comissao);
+                }
+            }
+            break;
+        case 7:
+            if(tipo==1){
+                printf("Digite o cpf do funcionario: ");
+                scanf("%ld", &codigo_ld);
+
+                posicao = procura_vetor_funcionario(codigo_ld);// procura o cadastro do cliente para ser visualizado
+                if(posicao==-1){
+                    printf("\nCadastro não encontrado!\n");
+                    return;
+                }else{
+                    printf("\n------------------Dados do funcionário------------------\n\n");
+                    printf("Nome: %s.\n", vetor_funcionario[posicao].nome);
+                    printf("CPF: %ld.\n", vetor_funcionario[posicao].cpf);
+                    printf("Cargo: %s.\n", vetor_funcionario[posicao].cargo);
+                    printf("Salário: %f.\n\n", vetor_funcionario[posicao].salario);
+                }
+            }else{
+                if(indice_inicial<0){
+                    indice_inicial=0;
+                }
+                if(indice_final>vetor_tamanhos[6][1]-1){
+                    indice_final=vetor_tamanhos[6][1]-1;
+                }
+                printf("\n\n------------------Dados do funcionario------------------\n\n");
+                for(int i=indice_inicial;i<indice_final+1;i++){
+                    printf("Nome: %s.\n", vetor_funcionario[i].nome);
+                    printf("CPF: %ld.\n", vetor_funcionario[i].cpf);
+                    printf("Cargo: %s.\n", vetor_funcionario[i].cargo);
+                    printf("Salário: %f.\n\n", vetor_funcionario[i].salario);
+                }
+            }
+            break;
+    }
+    return;
 }

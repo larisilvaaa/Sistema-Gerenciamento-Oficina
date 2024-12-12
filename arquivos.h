@@ -56,5 +56,7 @@ void exclui_em_vetor_fornecedor(int);
 void exclui_em_vetor_servico(int);
 void exclui_em_vetor_funcionario(int);
 int troca_salvamento(int);
+void inicializa_sistema();
+int salvar_arquivos();
 
 #endif
