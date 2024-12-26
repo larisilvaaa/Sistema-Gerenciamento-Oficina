@@ -88,4 +88,51 @@ typedef struct {
     float salario; // Salário do funcionário.
 } Funcionario;
 
+//Estrutura para agendamento e controle de serviços.
+typedef struct {
+    int controle; // Variável de contole.
+    int codigo_peca; // Código da peça.
+    char placa[10]; // Placa do veículo.
+    int codigo_servico; // Código do serviço.
+} Agendamento;
+
+// Estrutura para armazenar transações no caixa
+typedef struct {
+    char descricao[50];      // Descrição da transação
+    float valor;             // Valor da transação
+    char tipo;           // Tipo: "E" para entreda ou "S" para saída
+    char data[11];           // Data da transação
+} TransacaoCaixa;
+
+// Estrutura para contas a pagar
+typedef struct {
+    int id;                 // Identificador único da conta a pagar
+    int codigo_fornecedor;  // Código do fornecedor
+    char forma_pagamento[20]; // Forma de pagamento
+    float valor;            // Valor a ser pago
+    char prazo[20];         // Prazo do pagamento
+    int pago;               // Variável para saber se foi pago (1 para sim, 0 para não)
+} ContaPagar;
+
+// Estrutura para contas a receber
+typedef struct {
+    int id;                 // Identificador único da conta a receber
+    int codigo_cliente;     // Código do cliente
+    char forma_pagamento[20]; // Forma de pagamento
+    float valor;            // Valor a ser recebido
+    char prazo[20];         // Prazo do pagamento
+    int recebido;           // Variável para saber se foi recebido (1 para sim, 0 para não)
+} ContaReceber;
+
+// Estrutura para controle do caixa
+typedef struct {
+    float montante;          // Montante atual no caixa
+    TransacaoCaixa* transacoes; // Lista dinâmica de transações
+    int num_transacoes;      // Número de transações registradas
+    ContaPagar* contas_pagar; // Lista dinâmica de contas a pagar
+    int num_contas_pagar;    // Número de contas a pagar
+    ContaReceber* contas_receber; // Lista dinâmica de contas a receber
+    int num_contas_receber;  // Número de contas a receber
+} Caixa;
+
 #endif
