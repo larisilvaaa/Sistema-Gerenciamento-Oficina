@@ -108,7 +108,7 @@ void realoca_vetores(){
 OBS:Por ser uma informação de controle do sistema, esse vetor específico só é manipulado na memória persistente em binário.*/
 int escreve_vetor_tamanhos(){
     FILE *p_arquivo=NULL, *p_arquivo_backup=NULL;
-    mkdir(".//save");
+    mkdir(".//save", 0777);
     p_arquivo=fopen(".//save//tamanho_vetores.bin", "wb");
     p_arquivo_backup=fopen(".//save//tamanho_vetores_backup.bin", "wb");
     if(p_arquivo==NULL || p_arquivo_backup==NULL){
@@ -899,7 +899,7 @@ int procura_vetor_peca(int codigo){
     return -1;
 }
 
-int procura_vetor_fornecedor(int codigo){
+int procura_vetor_fornecedor(long int codigo){
     for(int i=0;i<vetor_tamanhos[4][1];i++){
         if(vetor_fornecedor[i].codigo==codigo){
             return i;
@@ -1047,6 +1047,71 @@ int troca_salvamento(int operacao){
         return -1;
     }
     return 1;
+}
+
+void inicializa_sistema(){
+    int ver;
+    ver=le_vetor_tamanhos(0);
+    if(ver==-1){
+        ver=le_vetor_tamanhos(1);
+        if(ver==-1){
+            printf("Seja bem vindo ao sistema de gerência da oficina!!!\n");
+        }
+    }
+    if(ver!=-1){
+        realoca_vetores();
+        if(vetor_tamanhos[0][0]==0){
+            ver=le_vetores_bin(0);
+            if(ver==-1){
+                ver=le_vetores_bin(1);
+                if(ver==-1){
+                    printf("Erro ao carregar arquivo! Inicializando com valores padrões!");
+                    inicia_vetor_estruturas();
+                    inicia_vetor_tamanhos();
+                    return;
+                }
+            }
+        }else{
+            ver=le_vetores_txt(0);
+            if(ver==-1){
+                ver=le_vetores_txt(1);
+                if(ver==-1){
+                    printf("Erro ao carregar arquivo! Inicializando com valores padrões!");
+                    inicia_vetor_estruturas();
+                    inicia_vetor_tamanhos();
+                    return;
+                }
+            }
+        }
+        return;
+    }
+    /*
+    if(ver!=-1){
+        if(vetor_tamanhos[0][0]==0){
+            ver=le_vetores_bin(0);
+            if(ver==-1){
+                ver=le_vetor_bin(1);
+            }
+        }
+    }
+    */
+    return;
+}
+
+int salvar_arquivos(){
+        if(escreve_vetor_tamanhos()==-1){
+            return -1;
+        }
+        if(vetor_tamanhos[0][0]==0){
+            if(escreve_vetores_bin()==-1){
+                return -1;
+            }
+        }else{
+            if(escreve_vetores_txt()==-1){
+                return -1;
+            }
+        }
+        return 1;
 }
 
 //TO DO:

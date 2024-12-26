@@ -3,8 +3,10 @@
 
 #include "estruturas.h" //inclusão da biblioteca estruturas para a implementação das structs
 
+void remove_barra_n(char *);
+
 //função que cadastra os dados da oficina
-Dados_Oficina cadastrar_dados_oficina();
+Dados_Oficina cadastrar_dados_oficina(char);
 
 //função que cadastra os dados dos clientes
 Cliente cadastrar_dados_cliente(char op);
@@ -23,5 +25,7 @@ Servico cadastrar_dados_servico(char op);
 
 //função que cadastra os dados dos funcionários
 Funcionario cadastrar_dados_funcionario(char op);
+
+void visualizar_dados(int escolha, int tipo, int indice_inicial, int indice_final);
 
 #endif

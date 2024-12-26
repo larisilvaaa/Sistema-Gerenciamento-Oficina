@@ -1,11 +1,27 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
+#ifdef _WIN32
+    #include <conio.h>  // Para _getch() no Windows
+    #define CLEAR "cls"
+    #define PAUSE() do { \
+        printf("\n\nPressione qualquer tecla para continuar...\n"); \
+        _getch(); \
+    } while (0)
+#else
+    #include <unistd.h>  // Para acesso ao POSIX
+    #define CLEAR "clear"
+    #define PAUSE() do { \
+        printf("\n\nPressione Enter para continuar...\n"); \
+        while (getchar() != '\n'); /* Limpa o buffer */ \
+        getchar(); /* Aguarda Enter */ \
+    } while (0)
+#endif
 
-#include <stdio.h> // Entrada e saída de dados.
-#include <stdlib.h> // Funções gerais como alocação de memória.
-#include <string.h> // Manipulação de strings.
-#include <time.h> // Operações com tempo e data.
-#include <sys/stat.h> // Informações sobre arquivos e diretórios.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <sys/stat.h>
 
 
 // Subestrutura para armazenar os dados de endereço, já que vai ser usada em várias outras partes.
