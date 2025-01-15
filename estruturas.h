@@ -124,7 +124,7 @@ typedef struct {
 typedef struct {
     int id;                 // Identificador único da conta a pagar
     int codigo_fornecedor;  // Código do fornecedor
-    char forma_pagamento[20]; // Forma de pagamento
+    char forma_pagamento;   // Forma de pagamento (D - dinheiro e C - cartão de crédito)
     float valor;            // Valor a ser pago
     char prazo[20];         // Prazo do pagamento
     int pago;               // Variável para saber se foi pago (1 para sim, 0 para não)
@@ -134,7 +134,7 @@ typedef struct {
 typedef struct {
     int id;                 // Identificador único da conta a receber
     int codigo_cliente;     // Código do cliente
-    char forma_pagamento[20]; // Forma de pagamento
+    char forma_pagamento;   // Forma de pagamento (D - dinheiro e C - cartão de crédito)
     float valor;            // Valor a ser recebido
     char prazo[20];         // Prazo do pagamento
     int recebido;           // Variável para saber se foi recebido (1 para sim, 0 para não)
