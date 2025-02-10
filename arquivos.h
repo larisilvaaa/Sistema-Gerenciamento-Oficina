@@ -47,6 +47,7 @@ int procura_vetor_peca(int);
 int procura_vetor_fornecedor(int);
 int procura_vetor_servico(int);
 int procura_vetor_funcionario(long int);
+int procura_vetor_ordemservico(int codigo);
 void define_codigo_cliente(int);
 void define_codigo_peca(int);
 void define_codigo_fornecedor(int);
@@ -62,5 +63,11 @@ int troca_salvamento(int);
 void inicializa_sistema();
 int salvar_arquivos();
 void* verifica_aloca(int,void*,size_t);
+void relatorio_cadastro_basico(int,int,char*);
+void relatorio_estoque(int);
+void relatorio_produtividade(int filtro);
+void relatorio_financeiro(int filtro);
+void importa_xml(int);
+void exporta_xml(int);
 
 #endif

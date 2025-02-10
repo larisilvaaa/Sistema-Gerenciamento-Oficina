@@ -88,7 +88,7 @@ void novo_agendamento_servico(){
         printf("Digite '-1' na entrada abaixo caso tenha finalizado!\n");
         printf("Digite o código do %d servico: ", contador);
         setbuf(stdin, NULL);
-        scanf("%d", servico_temp.codigo_servicos[contador]);
+        scanf("%d", &servico_temp.codigo_servicos[contador]);
         pos=procura_vetor_servico(servico_temp.codigo_servicos[contador]);
         if(servico_temp.codigo_servicos[contador]==-1){
             break;
@@ -107,10 +107,10 @@ void novo_agendamento_servico(){
         printf("Digite '-1' na entrada abaixo caso tenha finalizado!\n");
         printf("Digite o código da %d peça: ", contador);
         setbuf(stdin, NULL);
-        scanf("%d", servico_temp.pecas[contador][0]);
+        scanf("%d", &servico_temp.pecas[contador][0]);
         printf("Digite a quantidade da %d peça: ", contador);
         setbuf(stdin, NULL);
-        scanf("%d", servico_temp.pecas[contador][1]);
+        scanf("%d", &servico_temp.pecas[contador][1]);
         pos=procura_vetor_peca(servico_temp.pecas[contador][0]);
         if(servico_temp.pecas[contador][0]==-1){
             break;
@@ -145,7 +145,7 @@ void novo_agendamento_servico(){
     printf("Escreva o valor da comissão do funcionário por serviço: R$");
     setbuf(stdin, NULL);
     scanf("%f", &servico_temp.comissao);
-    servico_temp.codigo=define_codigo_ordem_servico(vetor_tamanhos[7][1]);
+    servico_temp.codigo=define_codigo_ordemservico(vetor_tamanhos[7][1]);
     servico_temp.existe=1;
     servico_temp.finalizado=0;
     vetor_ordemservico[vetor_tamanhos[7][1]]=servico_temp;
@@ -188,7 +188,7 @@ void finaliza_servico(){
     atualizar_estoque(pos);
     dife=calcula_diferenca_datas(vetor_ordemservico[pos].data_hora, vetor_ordemservico[pos].data_hora_final);
     comissao=calcula_comissao(&vetor_ordemservico[pos]);
-    adicionarContaPagar(6,vetor_ordemservico[pos].cpf_funcionario,(float)comissao);
+    //adicionarContaPagar(6,vetor_ordemservico[pos].cpf_funcionario,(float)comissao);
     system(CLEAR);
     printf("O funcionario de cpf %ld finalizou tal serviço em %.1f dias, recebendo R$%.2f de comissão!\n", vetor_ordemservico[pos].cpf_funcionario, dife, comissao);
     PAUSE();

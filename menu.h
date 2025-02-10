@@ -6,5 +6,7 @@
 //função menu
 extern int execucao;
 void menu_cadastro();
+void menu_relatorio();
+void menu_imp_exp();
 
 #endif

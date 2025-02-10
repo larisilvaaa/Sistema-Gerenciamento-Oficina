@@ -49,10 +49,11 @@ void registrar_peca(){
 
                 printf("\nCódigo da peça (ou -1 para finalizar): ");
                 scanf("%d", &codigo_quantidade[tipos_pecas][0]);
-                pos=procura_vetor_peca(codigo_quantidade[tipos_pecas][0]);
                 if (codigo_quantidade[tipos_pecas][0] == -1){
                     break;
-                }else if(pos==-1){
+                }
+                pos=procura_vetor_peca(codigo_quantidade[tipos_pecas][0]);
+                if(pos==-1){
                     printf("\nEssa peça não foi encontrada! Digite novamente!\n");
                 }else{
                     printf("Unidades por peça: ");
@@ -77,11 +78,12 @@ void registrar_peca(){
             imposto_produto = nova_peca.imposto/(quant);
 
             tipos_pecas=0;
-            while(codigo_quantidade[tipos_pecas][0]!=-1 || tipos_pecas==100){
+            while(codigo_quantidade[tipos_pecas][0] != -1 && tipos_pecas < 100){
                 vetor_peca[codigo_quantidade[tipos_pecas][2]].precoVenda=vetor_peca[codigo_quantidade[tipos_pecas][2]].precoCusto+frete_produto+imposto_produto+(oficina.porcentagemLucro*vetor_peca[codigo_quantidade[tipos_pecas][2]].precoCusto);
                 vetor_peca[codigo_quantidade[tipos_pecas][2]].quantidadeEstoque+=codigo_quantidade[tipos_pecas][1];
+                tipos_pecas++;
             }
-            adicionarContaPagar(4, pos, preco_total);
+            //adicionarContaPagar(4, pos, preco_total);
         }
         if(op==2){
             break;

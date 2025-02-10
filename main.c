@@ -72,6 +72,34 @@ int main(){
                 }
                 PAUSE();
                 break;
+            case 'r':
+            case 'R':
+                system(CLEAR);
+                menu_relatorio();
+                break;
+            case 'i':
+            case 'I':
+                system(CLEAR);
+                menu_imp_exp();
+                break;
+            case 'e':
+            case 'E':
+                system(CLEAR);
+                registrar_peca();
+                break;
+            case 'a':
+            case 'A':
+                system(CLEAR);
+                printf("Digite o numero da opcao desejada:\n");
+                printf("1-Agendar servico\n");
+                printf("2-Finaliza servico\n");
+                scanf("%d",&cur);
+                if(cur==1){
+                    novo_agendamento_servico();
+                }else{
+                    finaliza_servico();
+                }
+                break;
             case 'f':
             case 'F':
                 system(CLEAR);
@@ -88,15 +116,17 @@ int main(){
 
 //TO DO;
 
-//ARQUIVOS.C:
-//-Ler e escrever das novas estruturas de dados
+//Finalizar caixa
+//Finalizar exclusão lógica
+//Corrigir salvamento
+//Implementar tudo a main
+//Módulo de Relatórios
+//Módulo de Importação e Exportação
+//Testar
+//Debug
 
-//ESTRUTURAS.H:
-//-Migrar coisas/alterar coisas do estruturas.h
+//Web
+    //Crash
+    //Aviso
 
-//MENU:
-//-Implementar novas subrotinas
-
-//NOVAS BIBLIOTECAS:
-//-Adaptar seu uso para estruturas existentes
-//-Correnacionar bibliotecas que dependem uma da outra
+//Deus tenha piedade da minha alma!

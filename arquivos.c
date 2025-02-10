@@ -286,7 +286,7 @@ int escreve_vetor_peca_txt(){
         return -1;
     }
     for(int i=0;i<vetor_tamanhos[3][1];i++){
-        ver=fprintf(p_arquivo,"%d;%s;%s;%s;%f;%f;%d;%d;%d\n",vetor_peca[i].codigo,vetor_peca[i].descricao,vetor_peca[i].fabricante,vetor_peca[i].fornecedor,vetor_peca[i].precoCusto,vetor_peca[i].precoVenda,vetor_peca[i].quantidadeEstoque,vetor_peca[i].estoqueMinimo, vetor_peca[i].existe);
+        ver=fprintf(p_arquivo,"%d;%s;%s;%s;%f;%f;%d;%d;%d;%s\n",vetor_peca[i].codigo,vetor_peca[i].descricao,vetor_peca[i].fabricante,vetor_peca[i].fornecedor,vetor_peca[i].precoCusto,vetor_peca[i].precoVenda,vetor_peca[i].quantidadeEstoque,vetor_peca[i].estoqueMinimo, vetor_peca[i].existe, vetor_peca[i].nome);
         if(ver<0){
             fclose(p_arquivo);
             fclose(p_arquivo_backup);
@@ -918,15 +918,16 @@ int procura_vetor_veiculo(char* placa){
 int procura_vetor_peca(int codigo){
     for(int i=0;i<vetor_tamanhos[3][1];i++){
         if(vetor_peca[i].codigo==codigo){
+            printf("%d\n",i);
             return i;
         }
     }
     return -1;
 }
 
-int procura_vetor_fornecedor(long int codigo){
+long int procura_vetor_fornecedor(long int codigo){
     for(int i=0;i<vetor_tamanhos[4][1];i++){
-        if(vetor_fornecedor[i].codigo==codigo){
+        if(vetor_fornecedor[i].cnpj==codigo){
             return i;
         }
     }
@@ -951,7 +952,7 @@ int procura_vetor_funcionario(long int cpf){
     return -1;
 }
 
-int procura_vetor_ordem_servico(int codigo){
+int procura_vetor_ordemservico(int codigo){
     for(int i=0;i<vetor_tamanhos[7][1];i++){
         if(vetor_ordemservico[i].codigo==codigo){
             return i;
@@ -1146,6 +1147,407 @@ void* verifica_aloca(int indice, void* p, size_t tamanho_tipo){
     }
     return p;
 }
+
+void relatorio_cadastro_basico(int cadastro,int filtro,char* linha_filtro){
+    FILE *p;
+    int cod_int;
+    long cod_lgn;
+    p=fopen("relatorio_cadastro_basico.csv", "w");
+    switch(cadastro){
+        case 1:
+            if(filtro==3){
+                sscanf(linha_filtro,"%d",&cod_int);
+            }
+            for(int i=0;i<vetor_tamanhos[1][1];i++){
+                if(filtro==1){
+                    fprintf(p,"%d;%s;%ld;%s;%s;%d;%s;%s;%d;%ld;%s;%d\n", vetor_cliente[i].codigo, vetor_cliente[i].nome,vetor_cliente[i].cpf_cnpj, vetor_cliente[i].endereco.estado, vetor_cliente[i].endereco.cidade, vetor_cliente[i].endereco.cep, vetor_cliente[i].endereco.bairro, vetor_cliente[i].endereco.rua, vetor_cliente[i].endereco.numero, vetor_cliente[i].telefone, vetor_cliente[i].email, vetor_cliente[i].existe);
+                }else if(filtro==2){
+                    if(strcmp(linha_filtro, vetor_cliente[i].nome)==0){
+                        fprintf(p,"%d;%s;%ld;%s;%s;%d;%s;%s;%d;%ld;%s;%d\n", vetor_cliente[i].codigo, vetor_cliente[i].nome,vetor_cliente[i].cpf_cnpj, vetor_cliente[i].endereco.estado, vetor_cliente[i].endereco.cidade, vetor_cliente[i].endereco.cep, vetor_cliente[i].endereco.bairro, vetor_cliente[i].endereco.rua, vetor_cliente[i].endereco.numero, vetor_cliente[i].telefone, vetor_cliente[i].email, vetor_cliente[i].existe);
+                    }
+                }else{
+                    if(cod_int==vetor_cliente[i].codigo){
+                        fprintf(p,"%d;%s;%ld;%s;%s;%d;%s;%s;%d;%ld;%s;%d\n", vetor_cliente[i].codigo, vetor_cliente[i].nome,vetor_cliente[i].cpf_cnpj, vetor_cliente[i].endereco.estado, vetor_cliente[i].endereco.cidade, vetor_cliente[i].endereco.cep, vetor_cliente[i].endereco.bairro, vetor_cliente[i].endereco.rua, vetor_cliente[i].endereco.numero, vetor_cliente[i].telefone, vetor_cliente[i].email, vetor_cliente[i].existe);
+                    }
+                }
+            }
+            break;
+        case 2:
+            for(int i=0;i<vetor_tamanhos[1][2];i++){
+                if(filtro==1){
+                    fprintf(p,"%s;%s;%s;%d;%s;%d;%d\n",vetor_veiculo[i].placa,vetor_veiculo[i].modelo,vetor_veiculo[i].marca,vetor_veiculo[i].anoFabricacao,vetor_veiculo[i].chassi,vetor_veiculo[i].proprietario, vetor_veiculo[i].existe);
+                }else if(filtro==2){
+                    if(strcmp(linha_filtro,vetor_veiculo[i].modelo)==0){
+                        fprintf(p,"%s;%s;%s;%d;%s;%d;%d\n",vetor_veiculo[i].placa,vetor_veiculo[i].modelo,vetor_veiculo[i].marca,vetor_veiculo[i].anoFabricacao,vetor_veiculo[i].chassi,vetor_veiculo[i].proprietario, vetor_veiculo[i].existe);
+                    }
+                }else{
+                    if(strcmp(linha_filtro,vetor_veiculo[i].placa)==0){
+                        fprintf(p,"%s;%s;%s;%d;%s;%d;%d\n",vetor_veiculo[i].placa,vetor_veiculo[i].modelo,vetor_veiculo[i].marca,vetor_veiculo[i].anoFabricacao,vetor_veiculo[i].chassi,vetor_veiculo[i].proprietario, vetor_veiculo[i].existe);
+                    }
+                }
+            }
+            break;
+        case 3:
+            if(filtro==3){
+                sscanf(linha_filtro,"%d",&cod_int);
+            }
+            for(int i=0;i<vetor_tamanhos[1][3];i++){
+                if(filtro==1){
+                    fprintf(p,"%d;%s;%s;%s;%f;%f;%d;%d;%d;%s\n",vetor_peca[i].codigo,vetor_peca[i].descricao,vetor_peca[i].fabricante,vetor_peca[i].fornecedor,vetor_peca[i].precoCusto,vetor_peca[i].precoVenda,vetor_peca[i].quantidadeEstoque,vetor_peca[i].estoqueMinimo, vetor_peca[i].existe, vetor_peca[i].nome);
+                }else if(filtro==2){
+                    if(strcmp(linha_filtro,vetor_peca[i].nome)==0){
+                        fprintf(p,"%d;%s;%s;%s;%f;%f;%d;%d;%d;%s\n",vetor_peca[i].codigo,vetor_peca[i].descricao,vetor_peca[i].fabricante,vetor_peca[i].fornecedor,vetor_peca[i].precoCusto,vetor_peca[i].precoVenda,vetor_peca[i].quantidadeEstoque,vetor_peca[i].estoqueMinimo, vetor_peca[i].existe, vetor_peca[i].nome);
+                    }
+                }else{
+                    if(cod_int==vetor_peca[i].codigo){
+                        fprintf(p,"%d;%s;%s;%s;%f;%f;%d;%d;%d;%s\n",vetor_peca[i].codigo,vetor_peca[i].descricao,vetor_peca[i].fabricante,vetor_peca[i].fornecedor,vetor_peca[i].precoCusto,vetor_peca[i].precoVenda,vetor_peca[i].quantidadeEstoque,vetor_peca[i].estoqueMinimo, vetor_peca[i].existe, vetor_peca[i].nome);
+                    }
+                }
+            }
+            break;
+        case 4:
+            if(filtro==3){
+                sscanf(linha_filtro,"%d",&cod_int);
+            }
+            for(int i=0;i<vetor_tamanhos[1][4];i++){
+                if(filtro==1){
+                    fprintf(p,"%d;%s;%s;%s;%ld;%s;%s;%d;%s;%s;%d;%ld;%s;%d\n",vetor_fornecedor[i].codigo,vetor_fornecedor[i].nomeFantasia,vetor_fornecedor[i].razaoSocial,vetor_fornecedor[i].inscricaoEstadual,vetor_fornecedor[i].cnpj,vetor_fornecedor[i].endereco.estado,vetor_fornecedor[i].endereco.cidade,vetor_fornecedor[i].endereco.cep,vetor_fornecedor[i].endereco.bairro,vetor_fornecedor[i].endereco.rua, vetor_fornecedor[i].endereco.numero,vetor_fornecedor[i].telefone, vetor_fornecedor[i].email, vetor_fornecedor[i].existe);
+                }else if(filtro==2){
+                    if(strcmp(linha_filtro,vetor_fornecedor[i].nomeFantasia)==0){
+                        fprintf(p,"%d;%s;%s;%s;%ld;%s;%s;%d;%s;%s;%d;%ld;%s;%d\n",vetor_fornecedor[i].codigo,vetor_fornecedor[i].nomeFantasia,vetor_fornecedor[i].razaoSocial,vetor_fornecedor[i].inscricaoEstadual,vetor_fornecedor[i].cnpj,vetor_fornecedor[i].endereco.estado,vetor_fornecedor[i].endereco.cidade,vetor_fornecedor[i].endereco.cep,vetor_fornecedor[i].endereco.bairro,vetor_fornecedor[i].endereco.rua, vetor_fornecedor[i].endereco.numero,vetor_fornecedor[i].telefone, vetor_fornecedor[i].email, vetor_fornecedor[i].existe);
+                    }
+                }else if(cod_int==vetor_fornecedor[i].codigo){
+                    fprintf(p,"%d;%s;%s;%s;%ld;%s;%s;%d;%s;%s;%d;%ld;%s;%d\n",vetor_fornecedor[i].codigo,vetor_fornecedor[i].nomeFantasia,vetor_fornecedor[i].razaoSocial,vetor_fornecedor[i].inscricaoEstadual,vetor_fornecedor[i].cnpj,vetor_fornecedor[i].endereco.estado,vetor_fornecedor[i].endereco.cidade,vetor_fornecedor[i].endereco.cep,vetor_fornecedor[i].endereco.bairro,vetor_fornecedor[i].endereco.rua, vetor_fornecedor[i].endereco.numero,vetor_fornecedor[i].telefone, vetor_fornecedor[i].email, vetor_fornecedor[i].existe);
+                }
+            }
+            break;
+        case 5:
+            if(filtro==3){
+                sscanf(linha_filtro,"%d",&cod_int);
+            }
+            for(int i=0;i<vetor_tamanhos[1][5];i++){
+                if(filtro==1){
+                    fprintf(p,"%d;%s;%f;%f;%d\n",vetor_servico[i].codigo,vetor_servico[i].descricao,vetor_servico[i].preco,vetor_servico[i].comissao, vetor_servico[i].existe);
+                }else{
+                    if(cod_int==vetor_servico[i].codigo){
+                        fprintf(p,"%d;%s;%f;%f;%d\n",vetor_servico[i].codigo,vetor_servico[i].descricao,vetor_servico[i].preco,vetor_servico[i].comissao, vetor_servico[i].existe);
+                    }
+                }
+            }
+            break;
+        case 6:
+            if(filtro==3){
+                sscanf(linha_filtro,"%ld",&cod_lgn);
+            }
+            for(int i=0;i<vetor_tamanhos[1][6];i++){
+                if(filtro==1){
+                    fprintf(p,"%s;%ld;%s;%f;%d\n",vetor_funcionario[i].nome, vetor_funcionario[i].cpf,vetor_funcionario[i].cargo,vetor_funcionario[i].salario, vetor_funcionario[i].existe);
+                }else if(filtro==2){
+                    if(strcmp(linha_filtro,vetor_funcionario[i].nome)==0){
+                        fprintf(p,"%s;%ld;%s;%f;%d\n",vetor_funcionario[i].nome, vetor_funcionario[i].cpf,vetor_funcionario[i].cargo,vetor_funcionario[i].salario, vetor_funcionario[i].existe);
+                    }
+                }else{
+                    if(cod_lgn==vetor_funcionario[i].cpf){
+                        fprintf(p,"%s;%ld;%s;%f;%d\n",vetor_funcionario[i].nome, vetor_funcionario[i].cpf,vetor_funcionario[i].cargo,vetor_funcionario[i].salario, vetor_funcionario[i].existe);
+                    }
+                }
+            }
+            break;
+    }
+    fclose(p);
+    return;
+}
+
+void relatorio_estoque(int filtro){
+    FILE *p;
+    p=fopen("relatorio_estoque.csv", "w");
+    if(filtro==1){
+        relatorio_cadastro_basico(3,1,"");
+    }
+    fclose(p);
+    return;
+}
+
+void relatorio_produtividade(int filtro){
+    
+    return;
+}
+
+void relatorio_financeiro(int filtro){
+    
+    return;
+}
+
+void importa_xml(int dado) {
+    FILE *p;
+    char linha[1024];
+
+    setbuf(stdin, NULL);
+    printf("\nDigite o diretorio do arquivo XML para importacao: ");
+    scanf(" %[^\n]", linha);
+
+    p = fopen(linha, "r");
+    if (p == NULL) {
+        printf("\nERRO! Arquivo invalido ou inexistente!\n");
+        PAUSE();
+        return;
+    }
+
+    switch (dado) {
+        case 1: // Importar Clientes
+            while (fgets(linha, sizeof(linha), p)) {
+                if (strstr(linha, "<registro>")) {
+                    Cliente novoCliente = {0};
+
+                    while (fgets(linha, sizeof(linha), p) && !strstr(linha, "</registro>")) {
+                        sscanf(linha, " <codigo>%d</codigo>", &novoCliente.codigo);
+                        sscanf(linha, " <nome>%99[^\n]</nome>", novoCliente.nome);
+                        sscanf(linha, " <cpf>%ld</cpf>", &novoCliente.cpf_cnpj);
+                        sscanf(linha, " <telefone>%ld</telefone>", &novoCliente.telefone);
+                        sscanf(linha, " <email>%49[^\n]</email>", novoCliente.email);
+                        sscanf(linha, " <estado>%2s</estado>", novoCliente.endereco.estado);
+                        sscanf(linha, " <cidade>%29[^\n]</cidade>", novoCliente.endereco.cidade);
+                        sscanf(linha, " <bairro>%29[^\n]</bairro>", novoCliente.endereco.bairro);
+                        sscanf(linha, " <rua>%49[^\n]</rua>", novoCliente.endereco.rua);
+                        sscanf(linha, " <numero>%d</numero>", &novoCliente.endereco.numero);
+                    }
+                    novoCliente.existe = 1;
+                    vetor_cliente[vetor_tamanhos[1][1]++] = novoCliente;
+                }
+            }
+            break;
+
+        case 2: // Importar Veículos
+            while (fgets(linha, sizeof(linha), p)) {
+                if (strstr(linha, "<registro>")) {
+                    Veiculo novoVeiculo = {0};
+                    printf("Aqui!");
+                    while (fgets(linha, sizeof(linha), p) && !strstr(linha, "</registro>")) {
+                        sscanf(linha, " <placa>%9s</placa>", novoVeiculo.placa);
+                        printf("Placa: %s\n", novoVeiculo.placa);
+                        sscanf(linha, " <modelo>%29[^\n]</modelo>", novoVeiculo.modelo);
+                        sscanf(linha, " <marca>%29[^\n]</marca>", novoVeiculo.marca);
+                        sscanf(linha, " <anoFabricacao>%d</anoFabricacao>", &novoVeiculo.anoFabricacao);
+                        sscanf(linha, " <chassi>%19[^\n]</chassi>", novoVeiculo.chassi);
+                        sscanf(linha, " <proprietario>%d</proprietario>", &novoVeiculo.proprietario);
+                    }
+                    novoVeiculo.existe = 1;
+                    vetor_veiculo[vetor_tamanhos[1][2]++] = novoVeiculo;
+                }
+            }
+            break;
+
+        case 3: // Importar Peças
+            while (fgets(linha, sizeof(linha), p)) {
+                if (strstr(linha, "<registro>")) {
+                    Peca novaPeca = {0};
+
+                    while (fgets(linha, sizeof(linha), p) && !strstr(linha, "</registro>")) {
+                        sscanf(linha, " <codigo>%d</codigo>", &novaPeca.codigo);
+                        sscanf(linha, " <descricao>%99[^\n]</descricao>", novaPeca.descricao);
+                        sscanf(linha, " <fabricante>%49[^\n]</fabricante>", novaPeca.fabricante);
+                        sscanf(linha, " <fornecedor>%49[^\n]</fornecedor>", novaPeca.fornecedor);
+                        sscanf(linha, " <precoCusto>%f</precoCusto>", &novaPeca.precoCusto);
+                        sscanf(linha, " <precoVenda>%f</precoVenda>", &novaPeca.precoVenda);
+                        sscanf(linha, " <quantidadeEstoque>%d</quantidadeEstoque>", &novaPeca.quantidadeEstoque);
+                        sscanf(linha, " <estoqueMinimo>%d</estoqueMinimo>", &novaPeca.estoqueMinimo);
+                        sscanf(linha, " <nome>%99[^\n]</nome>", novaPeca.nome);
+                    }
+                    novaPeca.existe = 1;
+                    vetor_peca[vetor_tamanhos[1][3]++] = novaPeca;
+                }
+            }
+            break;
+
+        case 4: // Importar Fornecedores
+            while (fgets(linha, sizeof(linha), p)) {
+                if (strstr(linha, "<registro>")) {
+                    Fornecedor novoFornecedor = {0};
+
+                    while (fgets(linha, sizeof(linha), p) && !strstr(linha, "</registro>")) {
+                        sscanf(linha, " <codigo>%d</codigo>", &novoFornecedor.codigo);
+                        sscanf(linha, " <nomeFantasia>%99[^\n]</nomeFantasia>", novoFornecedor.nomeFantasia);
+                        sscanf(linha, " <razaoSocial>%99[^\n]</razaoSocial>", novoFornecedor.razaoSocial);
+                        sscanf(linha, " <inscricaoEstadual>%19[^\n]</inscricaoEstadual>", novoFornecedor.inscricaoEstadual);
+                        sscanf(linha, " <cnpj>%ld</cnpj>", &novoFornecedor.cnpj);
+                        sscanf(linha, " <telefone>%ld</telefone>", &novoFornecedor.telefone);
+                        sscanf(linha, " <email>%49[^\n]</email>", novoFornecedor.email);
+                    }
+                    novoFornecedor.existe = 1;
+                    vetor_fornecedor[vetor_tamanhos[1][4]++] = novoFornecedor;
+                }
+            }
+            break;
+
+        case 5: // Importar Serviços
+            while (fgets(linha, sizeof(linha), p)) {
+                if (strstr(linha, "<registro>")) {
+                    Servico novoServico = {0};
+
+                    while (fgets(linha, sizeof(linha), p) && !strstr(linha, "</registro>")) {
+                        sscanf(linha, " <codigo>%d</codigo>", &novoServico.codigo);
+                        sscanf(linha, " <descricao>%99[^\n]</descricao>", novoServico.descricao);
+                        sscanf(linha, " <preco>%f</preco>", &novoServico.preco);
+                        sscanf(linha, " <comissao>%f</comissao>", &novoServico.comissao);
+                    }
+                    novoServico.existe = 1;
+                    vetor_servico[vetor_tamanhos[1][5]++] = novoServico;
+                }
+            }
+            break;
+
+        case 6: // Importar Funcionários
+            while (fgets(linha, sizeof(linha), p)) {
+                if (strstr(linha, "<registro>")) {
+                    Funcionario novoFuncionario = {0};
+
+                    while (fgets(linha, sizeof(linha), p) && !strstr(linha, "</registro>")) {
+                        sscanf(linha, " <nome>%99[^\n]</nome>", novoFuncionario.nome);
+                        sscanf(linha, " <cpf>%ld</cpf>", &novoFuncionario.cpf);
+                        sscanf(linha, " <cargo>%49[^\n]</cargo>", novoFuncionario.cargo);
+                        sscanf(linha, " <salario>%f</salario>", &novoFuncionario.salario);
+                    }
+                    novoFuncionario.existe = 1;
+                    vetor_funcionario[vetor_tamanhos[1][6]++] = novoFuncionario;
+                }
+            }
+            break;
+
+        default:
+            printf("\nOpcao invalida!\n");
+            PAUSE();
+            fclose(p);
+            return;
+    }
+
+    fclose(p);
+    printf("\nImportacao concluida com sucesso!\n");
+    PAUSE();
+}
+
+
+void exporta_xml(int dado) {
+    FILE *p;
+    char linha[1024];
+    
+    setbuf(stdin, NULL);
+    printf("\nDigite o diretorio de leitura: ");
+    scanf(" %[^\n]", linha);
+
+    p = fopen(linha, "w");
+    if (p == NULL) {
+        printf("\nERRO! Diretorio invalido!\n");
+        PAUSE();
+        return;
+    }
+
+    fprintf(p, "<dados>\n");
+
+    switch (dado) {
+        case 1: // Exportar Clientes
+            fprintf(p, "    <tabela nome=\"cliente\">\n");
+            for (int i = 0; i < vetor_tamanhos[1][1]; i++) {
+                if (!vetor_cliente[i].existe) continue; // Ignora clientes inativos
+                fprintf(p, "        <registro>\n");
+                fprintf(p, "            <codigo>%d</codigo>\n", vetor_cliente[i].codigo);
+                fprintf(p, "            <nome>%s</nome>\n", vetor_cliente[i].nome);
+                fprintf(p, "            <cpf>%ld</cpf>\n", vetor_cliente[i].cpf_cnpj);
+                fprintf(p, "            <telefone>%ld</telefone>\n", vetor_cliente[i].telefone);
+                fprintf(p, "            <email>%s</email>\n", vetor_cliente[i].email);
+                fprintf(p, "        </registro>\n");
+            }
+            fprintf(p, "    </tabela>\n");
+            break;
+
+        case 2: // Exportar Veículos
+            fprintf(p, "    <tabela nome=\"veiculo\">\n");
+            for (int i = 0; i < vetor_tamanhos[2][1]; i++) {
+                if (!vetor_veiculo[i].existe) continue;
+                fprintf(p, "        <registro>\n");
+                fprintf(p, "            <placa>%s</placa>\n", vetor_veiculo[i].placa);
+                fprintf(p, "            <modelo>%s</modelo>\n", vetor_veiculo[i].modelo);
+                fprintf(p, "            <marca>%s</marca>\n", vetor_veiculo[i].marca);
+                fprintf(p, "            <anoFabricacao>%d</anoFabricacao>\n", vetor_veiculo[i].anoFabricacao);
+                fprintf(p, "            <chassi>%s</chassi>\n", vetor_veiculo[i].chassi);
+                fprintf(p, "            <proprietario>%d</proprietario>\n", vetor_veiculo[i].proprietario);
+                fprintf(p, "        </registro>\n");
+            }
+            fprintf(p, "    </tabela>\n");
+            break;
+
+        case 3: // Exportar Peças
+            fprintf(p, "    <tabela nome=\"peca\">\n");
+            for (int i = 0; i < vetor_tamanhos[3][1]; i++) {
+                if (!vetor_peca[i].existe) continue;
+                fprintf(p, "        <registro>\n");
+                fprintf(p, "            <codigo>%d</codigo>\n", vetor_peca[i].codigo);
+                fprintf(p, "            <descricao>%s</descricao>\n", vetor_peca[i].descricao);
+                fprintf(p, "            <fabricante>%s</fabricante>\n", vetor_peca[i].fabricante);
+                fprintf(p, "            <fornecedor>%s</fornecedor>\n", vetor_peca[i].fornecedor);
+                fprintf(p, "            <precoCusto>%.2f</precoCusto>\n", vetor_peca[i].precoCusto);
+                fprintf(p, "            <precoVenda>%.2f</precoVenda>\n", vetor_peca[i].precoVenda);
+                fprintf(p, "            <quantidadeEstoque>%d</quantidadeEstoque>\n", vetor_peca[i].quantidadeEstoque);
+                fprintf(p, "        </registro>\n");
+            }
+            fprintf(p, "    </tabela>\n");
+            break;
+
+        case 4: // Exportar Fornecedores
+            fprintf(p, "    <tabela nome=\"fornecedor\">\n");
+            for (int i = 0; i < vetor_tamanhos[4][1]; i++) {
+                if (!vetor_fornecedor[i].existe) continue;
+                fprintf(p, "        <registro>\n");
+                fprintf(p, "            <codigo>%d</codigo>\n", vetor_fornecedor[i].codigo);
+                fprintf(p, "            <nomeFantasia>%s</nomeFantasia>\n", vetor_fornecedor[i].nomeFantasia);
+                fprintf(p, "            <razaoSocial>%s</razaoSocial>\n", vetor_fornecedor[i].razaoSocial);
+                fprintf(p, "            <cnpj>%ld</cnpj>\n", vetor_fornecedor[i].cnpj);
+                fprintf(p, "            <telefone>%ld</telefone>\n", vetor_fornecedor[i].telefone);
+                fprintf(p, "        </registro>\n");
+            }
+            fprintf(p, "    </tabela>\n");
+            break;
+
+        case 5: // Exportar Serviços
+            fprintf(p, "    <tabela nome=\"servico\">\n");
+            for (int i = 0; i < vetor_tamanhos[5][1]; i++) {
+                if (!vetor_servico[i].existe) continue;
+                fprintf(p, "        <registro>\n");
+                fprintf(p, "            <codigo>%d</codigo>\n", vetor_servico[i].codigo);
+                fprintf(p, "            <descricao>%s</descricao>\n", vetor_servico[i].descricao);
+                fprintf(p, "            <preco>%.2f</preco>\n", vetor_servico[i].preco);
+                fprintf(p, "            <comissao>%.2f</comissao>\n", vetor_servico[i].comissao);
+                fprintf(p, "        </registro>\n");
+            }
+            fprintf(p, "    </tabela>\n");
+            break;
+
+        case 6: // Exportar Funcionários
+            fprintf(p, "    <tabela nome=\"funcionario\">\n");
+            for (int i = 0; i < vetor_tamanhos[6][1]; i++) {
+                if (!vetor_funcionario[i].existe) continue;
+                fprintf(p, "        <registro>\n");
+                fprintf(p, "            <nome>%s</nome>\n", vetor_funcionario[i].nome);
+                fprintf(p, "            <cpf>%ld</cpf>\n", vetor_funcionario[i].cpf);
+                fprintf(p, "            <cargo>%s</cargo>\n", vetor_funcionario[i].cargo);
+                fprintf(p, "            <salario>%.2f</salario>\n", vetor_funcionario[i].salario);
+                fprintf(p, "        </registro>\n");
+            }
+            fprintf(p, "    </tabela>\n");
+            break;
+
+        default:
+            printf("\nOpcao invalida!\n");
+            PAUSE();
+            fclose(p);
+            return;
+    }
+
+    fprintf(p, "</dados>\n");
+    fclose(p);
+    printf("\nExportacao concluida com sucesso!\n");
+    PAUSE();
+}
+
 
 //TO DO:
 //-Testar FEITO!

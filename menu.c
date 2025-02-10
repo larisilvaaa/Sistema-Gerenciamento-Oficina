@@ -287,3 +287,146 @@ void menu_cadastro (){
         PAUSE();
     }
 }
+
+void menu_relatorio(){
+    int cur, filtro;
+    char linha_filtro[1024];
+    while(1){
+        system(CLEAR);
+        printf("Digite o numero correspondente a qual relatorio gostaria de gerar: \n");
+        printf("1-Cadastros basicos\n");
+        printf("2-Estoque\n");
+        printf("3-Produtividade\n");
+        printf("4-Financeiro\n");
+        printf("9-Sair\n");
+        printf("==> ");
+        scanf("%d", &cur);
+        switch(cur){
+            case 1:
+                printf("\nDigite o numero correspondente a qual cadastro gostaria de gerar relatorio:\n");
+                printf("1-Clientes\n");
+                printf("2-Veiculo\n");
+                printf("3-Peca\n");
+                printf("4-Fornecedor\n");
+                printf("5-Servico\n");
+                printf("6-Funcionario\n");
+                printf("==> ");
+                scanf("%d", &cur);
+                if(cur<1||cur>5){
+                    printf("Opcao Invalida! Retornando ao menu anterior!\n");
+                    PAUSE();
+                }else{
+                    printf("\nDigite o numero correspondente ao filtro desejado:\n");
+                    printf("1-Sem filtro\n");
+                    printf("2-Nome\n");
+                    printf("3-Codigo\n");
+                    printf("==> ");
+                    scanf("%d", &filtro);
+                    if(filtro==1||filtro<1||filtro>3){
+                        filtro=1;
+                    }else{
+                        printf("\nDigite seu filtro: ");
+                        setbuf(stdin, NULL);
+                        scanf("%[^\n]", linha_filtro);
+                    }
+                    relatorio_cadastro_basico(cur,filtro,linha_filtro);
+                    printf("Relatorio gerado!\n");
+                    PAUSE();
+                }
+                break;
+            case 2:
+                printf("\nDigite o numero correspondente ao filtro desejado:\n");
+                printf("1-Sem filtro\n");
+                printf("2-Servico\n");
+                printf("3-Cliente\n");
+                printf("4-Intervalo de datas\n");
+                printf("5-Funcionario\n");
+                printf("6-Estoque minimo\n");
+                printf("==> ");
+                scanf("%d",&filtro);
+                if(filtro<1||filtro>6){
+                    filtro=1;
+                }
+                relatorio_estoque(filtro);
+                break;
+            case 3:
+                printf("\nDigite o numero correspondente ao filtro desejado:\n");
+                printf("1-Sem filtro\n");
+                printf("2-Funcionario\n");
+                printf("3-Servicos\n");
+                printf("4-Intervalo de datas\n");
+                printf("==> ");
+                scanf("%d",&filtro);
+                if(filtro<1||filtro>4){
+                    filtro=1;
+                }
+                relatorio_produtividade(filtro);
+                break;
+            case 4:
+                printf("\nDigite o numero correspondente ao filtro desejado:\n");
+                printf("1-Sem filtro\n");
+                printf("2-Intervalo de datas\n");
+                printf("3-Cliente\n");
+                printf("4-Fornecedor\n");
+                printf("==> ");
+                scanf("%d",&filtro);
+                if(filtro<1||filtro>4){
+                    filtro=1;
+                }
+                relatorio_financeiro(filtro);
+                break;
+            case 9:
+                return;
+                break;
+            default:
+                printf("Opcao Invalida! Digite Novamente!\n");
+                PAUSE();
+        }
+    }
+    PAUSE();
+    return;
+}
+
+void menu_imp_exp(){
+    int cur, dado;
+    while(1){
+        system(CLEAR);
+        printf("\nDigite o numero da opcao desejada: \n");
+        printf("1-Importar dados\n");
+        printf("2-Exportar dados\n");
+        printf("9-Sair\n");
+        printf("==> ");
+        scanf("%d",&cur);
+        if(cur<1||(cur>2&&cur!=9)){
+            printf("\nOpcao invalida!\nDigite novamente!\n");
+            PAUSE();
+        }else if(cur==9){
+            break;
+        }else{
+            printf("\nEscolha o dado a ser manipulado:\n");
+            printf("1-Clientes\n");
+            printf("2-Veiculo\n");
+            printf("3-Peca\n");
+            printf("4-Fornecedor\n");
+            printf("5-Servico\n");
+            printf("6-Funcionario\n");
+            printf("7-Oficina\n");
+            printf("==> ");
+            scanf("%d",&dado);
+            if(dado<1||dado>7){
+                printf("\nOpcao invalida!\nDigite novamente!\n");
+                PAUSE();
+            }else{
+                if(cur==1){
+                    importa_xml(dado);
+                }else{
+                    exporta_xml(dado);
+                }
+            }
+        }
+    }
+    PAUSE();
+    system(CLEAR);
+    return;
+}
+    
