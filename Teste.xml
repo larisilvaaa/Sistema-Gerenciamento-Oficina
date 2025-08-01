@@ -1,0 +1,12 @@
+<dados>
+    <tabela nome="veiculo">
+        <registro>
+            <placa>23</placa>
+            <modelo>23</modelo>
+            <marca>23</marca>
+            <anoFabricacao>23</anoFabricacao>
+            <chassi>23</chassi>
+            <proprietario>23</proprietario>
+        </registro>
+    </tabela>
+</dados>
